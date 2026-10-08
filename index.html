@@ -47,6 +47,7 @@ pre code { background: none; padding: 0; font-size: inherit; }
 /* каркас */
 .app { display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); min-height: 100vh; }
 .app > div { min-width: 0; }
+.scrim { display: none; }
 .side { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--surface); border-right: 1px solid var(--line); padding: 20px 14px 40px; display: flex; flex-direction: column; gap: 14px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); padding: 4px 6px; }
 .brand-mark { width: 34px; height: 34px; border-radius: 9px; background: var(--accent); color: var(--surface); display: grid; place-items: center; font-family: var(--f-mono); font-weight: 600; font-size: 14px; flex: none; }
