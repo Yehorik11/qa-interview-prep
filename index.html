@@ -4,817 +4,473 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>QA Interview Prep</title>
-<meta name="description" content="Шпаргалка до співбесіди Manual QA: досвід, теорія тестування, веб, API, SQL, практичні кейси та відповіді англійською.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23127a58'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='monospace' font-size='14' font-weight='700' fill='white'%3EQA%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Шпаргалка до співбесіди Manual QA.">
 <style>
 :root {
-  --bg: #f3f6f5; --surface: #ffffff; --surface-2: #e9efed; --ink: #15211e; --muted: #5a6a65; --line: #d3ddd9;
-  --accent: #127a58; --accent-ink: #0d5c42; --accent-soft: #dcf0e6;
-  --fail: #c03d2a; --fail-soft: #fbe6e1; --warn: #a8690e; --warn-soft: #fbf0d8; --pw: #3d4fc4; --pw-soft: #e6e9fb;
-  --code-bg: #f7f9f8;
-  --f-display: "Unbounded", "Golos Text", system-ui, sans-serif;
-  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-  --side-w: 290px;
+  --bg: #ffffff; --text: #1d1d1f; --muted: #6b6b70; --line: #e3e3e6; --soft: #f5f5f7; --accent: #0b6e4f;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0e1513; --surface: #151f1c; --surface-2: #1c2825; --ink: #e3ece8; --muted: #93a49e; --line: #2a3934;
-    --accent: #45c493; --accent-ink: #7ad8b2; --accent-soft: #173a2e; --fail: #ef7a66; --fail-soft: #3b1f1a;
-    --warn: #e6ae4f; --warn-soft: #382c14; --pw: #8d9bff; --pw-soft: #222748; --code-bg: #111a17; color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0e1513; --surface: #151f1c; --surface-2: #1c2825; --ink: #e3ece8; --muted: #93a49e; --line: #2a3934;
-  --accent: #45c493; --accent-ink: #7ad8b2; --accent-soft: #173a2e; --fail: #ef7a66; --fail-soft: #3b1f1a;
-  --warn: #e6ae4f; --warn-soft: #382c14; --pw: #8d9bff; --pw-soft: #222748; --code-bg: #111a17; color-scheme: dark;
+  :root { --bg: #161617; --text: #ececee; --muted: #a0a0a6; --line: #333336; --soft: #222224; --accent: #5cc99d; color-scheme: dark; }
 }
 * { box-sizing: border-box; }
-html { scroll-padding-top: 20px; scroll-behavior: smooth; }
-body { margin: 0; overflow-x: hidden; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.62; }
-a { color: var(--accent-ink); text-underline-offset: 3px; }
-button, input { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
-code { font-family: var(--f-mono); font-size: .86em; background: var(--surface-2); padding: .1em .38em; border-radius: 5px; overflow-wrap: anywhere; }
-pre { font-family: var(--f-mono); margin: 6px 0 16px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--code-bg); font-size: 14px; line-height: 1.6; overflow-x: auto; }
-pre code { background: none; padding: 0; font-size: inherit; }
-.sql-k { color: var(--pw); font-weight: 600; }
-.sql-s { color: var(--accent-ink); }
-
-/* каркас */
-.app { display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); min-height: 100vh; }
-.app > div { min-width: 0; }
-.scrim { display: none; }
-.side { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--surface); border-right: 1px solid var(--line); padding: 20px 14px 40px; display: flex; flex-direction: column; gap: 14px; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); padding: 4px 6px; }
-.brand-mark { width: 34px; height: 34px; border-radius: 9px; background: var(--accent); color: var(--surface); display: grid; place-items: center; font-family: var(--f-mono); font-weight: 600; font-size: 14px; flex: none; }
-.brand-name { font-family: var(--f-display); font-weight: 700; font-size: 15px; line-height: 1.15; }
-.brand-name small { display: block; font-family: var(--f-body); font-weight: 500; font-size: 12px; color: var(--muted); }
-.search { position: relative; }
-.search input { width: 100%; font-size: 14px; padding: 9px 12px 9px 34px; border: 1px solid var(--line); border-radius: 9px; background: var(--bg); }
-.search svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; stroke: var(--muted); fill: none; stroke-width: 2; }
-.nav { display: flex; flex-direction: column; gap: 2px; }
-.nav-group { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 8px 4px; display: flex; gap: 8px; align-items: center; }
-.nav-group i { font-style: normal; width: 20px; height: 20px; border-radius: 6px; display: grid; place-items: center; background: var(--surface-2); font-size: 11px; }
-.nav a { display: block; padding: 6px 10px 6px 36px; border-radius: 8px; text-decoration: none; color: var(--ink); font-size: 14px; line-height: 1.35; }
-.nav a:hover { background: var(--surface-2); }
-.nav a.active { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
-.nav a.hidden { display: none; }
-.side-foot { margin-top: auto; display: flex; gap: 8px; padding: 0 6px; }
-.btn { cursor: pointer; border: 1px solid var(--line); background: var(--surface); border-radius: 9px; padding: 7px 12px; font-size: 13px; font-weight: 600; color: var(--muted); }
-.btn:hover { color: var(--ink); border-color: var(--muted); }
-
-.topbar { display: none; }
-.main { min-width: 0; padding: 36px clamp(16px, 4vw, 56px) 100px; }
-.page { max-width: 840px; margin: 0 auto; }
-
-/* шапка */
-.hero h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(28px, 4.2vw, 42px); line-height: 1.12; letter-spacing: -.01em; margin: 8px 0 14px; text-wrap: balance; }
-.eyebrow { font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
-.eyebrow b { color: var(--accent-ink); }
-.lead { font-size: 18px; color: var(--muted); margin: 0 0 22px; max-width: 640px; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
-.chip { font-size: 13px; padding: 5px 11px; border-radius: 99px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); text-decoration: none; }
-.chip:hover { color: var(--ink); border-color: var(--muted); }
-
-
-.profile { display: flex; align-items: center; gap: 16px; }
-.avatar { width: 64px; height: 64px; border-radius: 18px; background: var(--accent); color: var(--surface); display: grid; place-items: center; font-family: var(--f-display); font-weight: 700; font-size: 28px; flex: none; }
-.profile h1 { margin: 2px 0 0; }
-.hero .lead { margin-top: 16px; }
-.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; }
-.fact span { display: block; font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-.fact b { font-size: 15px; font-weight: 600; line-height: 1.4; }
-
-/* розділи */
-.part { margin-top: 56px; }
-.part-title { font-family: var(--f-display); font-weight: 700; font-size: 26px; line-height: 1.2; margin: 0 0 18px; display: flex; align-items: center; gap: 14px; }
-.part-n { font-family: var(--f-mono); font-size: 14px; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--ink); color: var(--bg); flex: none; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px 8px; margin-bottom: 16px; }
-.card.hidden { display: none; }
-.card h3 { font-size: 21px; font-weight: 700; line-height: 1.3; margin: 0 0 12px; }
-.card h4 { font-size: 16px; font-weight: 700; margin: 20px 0 8px; }
-.card p, .card ul, .card ol { margin: 0 0 14px; }
-.card ul, .card ol { padding-left: 1.3em; }
-.card li { margin: 4px 0; }
-.card li::marker { color: var(--muted); }
-.def { font-size: 18px; border-left: 3px solid var(--accent); padding-left: 14px; }
-.note { font-size: 14px; color: var(--muted); }
-mark.ph { background: var(--warn-soft); color: var(--warn); border-radius: 4px; padding: 0 4px; font-weight: 600; }
-mark.hit { background: var(--warn-soft); color: inherit; border-radius: 3px; }
-
-.callout { border-radius: 12px; padding: 12px 16px 2px; margin: 4px 0 16px; background: var(--c-soft); border: 1px solid color-mix(in srgb, var(--c) 28%, transparent); }
-.callout-title { font-weight: 700; font-size: 14px; color: var(--c); margin-bottom: 4px; }
-.callout.tip { --c: var(--accent); --c-soft: var(--accent-soft); }
-.callout.key { --c: var(--warn); --c-soft: var(--warn-soft); }
-.callout.ex { --c: var(--pw); --c-soft: var(--pw-soft); }
-.callout.bad { --c: var(--fail); --c-soft: var(--fail-soft); }
-
-/* сітки */
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 4px 0 16px; }
-.tile { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--bg); }
-.tile b { display: block; margin-bottom: 4px; }
-.tile p { margin: 0; font-size: 15px; }
-.tile .en { font-family: var(--f-mono); font-size: 12px; color: var(--muted); display: block; margin-bottom: 2px; }
-
-.steps { list-style: none; padding: 0 !important; counter-reset: s; display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
-.steps li { counter-increment: s; margin: 0; display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border: 1px solid var(--line); border-radius: 99px; background: var(--bg); font-size: 15px; }
-.steps li::before { content: counter(s); font-family: var(--f-mono); font-size: 12px; width: 22px; height: 22px; border-radius: 99px; display: grid; place-items: center; background: var(--accent); color: var(--surface); }
-
-.flow { list-style: none; padding: 0 !important; margin: 4px 0 16px; border-left: 2px solid var(--line); }
-.flow li { position: relative; padding: 2px 0 10px 20px; margin: 0; }
-.flow li::before { content: ""; position: absolute; left: -7px; top: 9px; width: 12px; height: 12px; border-radius: 99px; background: var(--surface); border: 2px solid var(--accent); }
-.flow li.alt::before { border-color: var(--fail); }
-.tag { font-family: var(--f-mono); font-size: 13px; font-weight: 600; padding: 1px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent-ink); }
-.tag.r { background: var(--fail-soft); color: var(--fail); }
-.tag.w { background: var(--warn-soft); color: var(--warn); }
-.tag.b { background: var(--pw-soft); color: var(--pw); }
-
-.table-scroll { overflow-x: auto; margin: 4px 0 16px; border: 1px solid var(--line); border-radius: 12px; }
-table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; }
-th, td { text-align: left; vertical-align: top; padding: 9px 14px; border-bottom: 1px solid var(--line); }
-th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; background: var(--surface-2); }
-tr:last-child td { border-bottom: 0; }
-td:first-child { white-space: nowrap; }
-
-/* питання-відповіді */
-.qa-tools { display: flex; gap: 8px; margin: -6px 0 14px; flex-wrap: wrap; }
-details.qa { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); margin-bottom: 8px; }
-details.qa.hidden { display: none; }
-details.qa summary { cursor: pointer; list-style: none; padding: 12px 16px; display: flex; gap: 12px; align-items: baseline; font-weight: 600; }
-details.qa summary::-webkit-details-marker { display: none; }
-.qa-n { font-family: var(--f-mono); font-size: 12px; color: var(--muted); flex: none; }
-details.qa summary::after { content: "відповідь"; margin-left: auto; font: 500 12px var(--f-body); color: var(--accent-ink); white-space: nowrap; padding-left: 10px; }
-details.qa[open] summary::after { content: "сховати"; }
-.qa-a { padding: 0 16px 4px 44px; }
-.qa-a p { margin: 0 0 12px; }
-
-.empty { display: none; text-align: center; color: var(--muted); padding: 40px 0; }
-
-@media (max-width: 900px) {
-  .app { grid-template-columns: minmax(0, 1fr); }
+html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding: 32px 20px 120px; }
+a { color: var(--accent); }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 4px; }
+h2 { font-size: 26px; line-height: 1.25; margin: 64px 0 16px; padding-top: 24px; border-top: 2px solid var(--text); }
+h3 { font-size: 20px; line-height: 1.3; margin: 36px 0 10px; }
+h4 { font-size: 17px; margin: 22px 0 6px; }
+p, ul, ol { margin: 0 0 14px; }
+ul, ol { padding-left: 1.4em; }
+li { margin: 4px 0; }
+.muted { color: var(--muted); }
+.sub { color: var(--muted); margin: 0 0 20px; }
+code { font: 0.9em ui-monospace, Menlo, Consolas, monospace; background: var(--soft); padding: 1px 5px; border-radius: 4px; }
+pre { background: var(--soft); border-radius: 8px; padding: 12px 14px; overflow-x: auto; margin: 0 0 14px; }
+pre code { background: none; padding: 0; font-size: 14px; }
+table { width: 100%; border-collapse: collapse; margin: 0 0 16px; font-size: 16px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: 600; font-size: 14px; }
+.note { background: var(--soft); border-left: 3px solid var(--accent); padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 0 0 16px; }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+.fill { background: #fff3c4; color: #6b4d00; padding: 0 4px; border-radius: 3px; }
+@media (prefers-color-scheme: dark) { .fill { background: #4a3c10; color: #ffe08a; } }
+.toc { background: var(--soft); border-radius: 10px; padding: 16px 20px 6px; margin: 24px 0 0; }
+.toc ol { margin: 0 0 10px; }
+.toc li { margin: 3px 0; }
+.toc ol ol { font-size: 15px; color: var(--muted); }
+.toc a { text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.top { position: fixed; right: 16px; bottom: 16px; background: var(--text); color: var(--bg); text-decoration: none; font-size: 14px; font-weight: 600; padding: 10px 14px; border-radius: 99px; box-shadow: 0 2px 10px rgba(0,0,0,.2); }
+@media (max-width: 600px) {
   body { font-size: 16px; }
-  .part { margin-top: 40px; }
-  .part-title { font-size: 21px; gap: 10px; }
-  .part-n { width: 30px; height: 30px; font-size: 13px; }
-  .card h3 { font-size: 19px; }
-  .def { font-size: 16px; }
-  .lead { font-size: 16px; }
-  .avatar { width: 52px; height: 52px; font-size: 22px; border-radius: 14px; }
-  .facts { grid-template-columns: 1fr 1fr; }
-  .fact { padding: 8px 10px; }
-  .fact b { font-size: 14px; }
-  .grid { grid-template-columns: 1fr; }
-  td:first-child { white-space: normal; }
-  th, td { padding: 8px 10px; }
-  pre { font-size: 12.5px; padding: 12px; }
-  .steps li { font-size: 14px; }
-  details.qa summary { padding: 12px; gap: 8px; }
-  details.qa summary::after { display: none; }
-  .side { position: fixed; z-index: 30; inset: 0 auto 0 0; width: min(86vw, 320px); height: 100%; transform: translateX(-105%); visibility: hidden; transition: transform .25s, visibility .25s; box-shadow: 0 0 40px rgba(0,0,0,.2); }
-  .side.open { transform: none; visibility: visible; }
-  .topbar { display: flex; position: sticky; top: 0; z-index: 20; align-items: center; gap: 10px; padding: 10px 16px; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-  .topbar b { font-family: var(--f-display); font-size: 14px; }
-  .main { padding: 24px 16px 80px; }
-  html { scroll-padding-top: 64px; }
-  .card { padding: 16px 14px 4px; border-radius: 14px; }
-  .qa-a { padding-left: 16px; }
-  .scrim { position: fixed; inset: 0; z-index: 25; background: rgba(0,0,0,.35); display: none; }
-  .scrim.on { display: block; }
+  main { padding: 24px 16px 100px; }
+  h1 { font-size: 28px; }
+  h2 { font-size: 22px; margin-top: 48px; }
+  h3 { font-size: 18px; }
+  table { font-size: 14px; }
+  th, td { padding: 6px 6px; }
 }
-@media (max-width: 380px) { .facts { grid-template-columns: 1fr; } }
-@media print {
-  .side, .topbar, .qa-tools { display: none !important; }
-  .app { display: block; }
-  details.qa .qa-a { display: block !important; }
-  .card { break-inside: avoid; }
-}
+@media print { .top { display: none; } h2 { break-before: page; } }
 </style>
 </head>
 <body>
-<div class="app">
-  <aside class="side" id="side">
-    <a class="brand" href="#me">
-      <span class="brand-mark">QA</span>
-      <span class="brand-name">Interview Prep<small>Manual QA · шпаргалка</small></span>
-    </a>
-    <label class="search">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="Пошук: SQL, smoke, баг…" autocomplete="off">
-    </label>
-    <nav class="nav" id="nav"></nav>
-    <div class="side-foot">
-      <button class="btn" id="theme" type="button">Тема</button>
-      <button class="btn" type="button" onclick="window.print()">Друк</button>
-    </div>
-  </aside>
-  <div class="scrim" id="scrim"></div>
+<main>
 
-  <div>
-    <div class="topbar">
-      <button class="btn" id="menu" type="button" aria-label="Меню">☰</button>
-      <b>QA Interview Prep</b>
-    </div>
-    <main class="main">
-      <div class="page" id="top">
+<header id="top">
+  <h1>Єгор — Manual QA Engineer</h1>
+  <p class="sub">Шпаргалка до співбесіди</p>
+  <p>Тестував інтернет-магазин автозапчастин: каталог, підбір запчастин, кошик, оформлення замовлення, ціни та залишки. Перевіряю не тільки UI, а й API та дані в базі.</p>
+  <p><b>Інструменти:</b> Jira, Postman, DevTools, PostgreSQL, Git.<br>
+  <b>Раніше:</b> Front-End розробник (React).</p>
+</header>
 
-        <header class="hero" id="me">
-          <div class="profile">
-            <div class="avatar">Є</div>
-            <div>
-              <div class="eyebrow"><b>Manual QA Engineer</b> · ex Front-End (React)</div>
-              <h1>Єгор</h1>
-            </div>
-          </div>
-          <p class="lead">Тестую e-commerce: каталог, підбір, кошик, checkout, ціни й залишки. Перевіряю не тільки UI, а й API та дані в базі — щоб знайти, де саме виникає проблема.</p>
-          <div class="facts">
-            <div class="fact"><span>Тестування</span><b>Функціональне, регресійне, smoke, sanity</b></div>
-            <div class="fact"><span>Документація</span><b>Тест-кейси, чеклісти, баг-репорти</b></div>
-            <div class="fact"><span>Інструменти</span><b>Jira · Postman · DevTools · PostgreSQL · Git</b></div>
-            <div class="fact"><span>Процес</span><b>Scrum, робота з dev і PM</b></div>
-          </div>
-        </header>
+<nav class="toc" id="toc">
+  <ol>
+    <li><a href="#me">Про мене</a>
+      <ol><li><a href="#project">Проєкт</a></li><li><a href="#why-qa">Чому з Front-End у QA</a></li><li><a href="#bugs">Баги, які знаходив</a></li></ol></li>
+    <li><a href="#basics">Основи</a>
+      <ol><li><a href="#definitions">Визначення</a></li><li><a href="#error-defect">Error, Defect, Failure</a></li><li><a href="#qa-qc">QA, QC, Testing</a></li><li><a href="#verval">Верифікація і валідація</a></li><li><a href="#principles">7 принципів</a></li></ol></li>
+    <li><a href="#types">Види тестування</a>
+      <ol><li><a href="#func">Функціональне і нефункціональне</a></li><li><a href="#regression">Регресійне, Smoke, Sanity</a></li><li><a href="#static">Статичне і динамічне</a></li><li><a href="#boxes">Black, White, Grey Box</a></li><li><a href="#levels">Рівні тестування</a></li></ol></li>
+    <li><a href="#process">Процес і документація</a>
+      <ol><li><a href="#sdlc">SDLC і STLC</a></li><li><a href="#methodologies">Waterfall, Agile, Scrum, Kanban</a></li><li><a href="#testcase">Тест-кейс і чек-лист</a></li><li><a href="#bugreport">Баг-репорт, Severity, Priority</a></li><li><a href="#bug-life">Життєвий цикл бага</a></li></ol></li>
+    <li><a href="#design">Техніки тест-дизайну</a></li>
+    <li><a href="#web">Веб і API</a>
+      <ol><li><a href="#client-server">Клієнт-серверна архітектура</a></li><li><a href="#url">Що відбувається після введення URL</a></li><li><a href="#rest">REST API і HTTP-методи</a></li><li><a href="#codes">Статус-коди</a></li><li><a href="#storage">Cookies, Local / Session Storage</a></li><li><a href="#crypto">Шифрування і хешування</a></li></ol></li>
+    <li><a href="#sql">SQL</a></li>
+    <li><a href="#web-mobile">Web vs Mobile</a></li>
+    <li><a href="#practice">Практичні питання</a>
+      <ol><li><a href="#login">Як тестувати форму логіна</a></li><li><a href="#sqli">SQL-ін'єкція</a></li><li><a href="#priority">Пріоритизація перед релізом</a></li><li><a href="#overtime">Робота допізна</a></li></ol></li>
+    <li><a href="#english">English: HR-питання</a></li>
+  </ol>
+</nav>
 
-        <!-- ============ 1. ДОСВІД ============ -->
-        <section class="part" data-part="Про мене" data-icon="1">
-          <h2 class="part-title"><span class="part-n">1</span>Мій досвід</h2>
+<!-- 1 -->
+<h2 id="me">1. Про мене</h2>
 
-          <article class="card" id="about" data-title="Проєкт: автозапчастини">
-            <h3>Проєкт: інтернет-магазин автозапчастин</h3>
-            <p>Класичний e-commerce із каталогом, кошиком і оформленням замовлення. Специфіка — великий каталог, оригінали та аналоги, і складна логіка підбору: користувач обирає марку, модель і рік авто, а система має показати тільки сумісні запчастини.</p>
-            <h4>Що робив</h4>
-            <ul>
-              <li>Мануальне функціональне та регресійне тестування frontend, адмінки та API.</li>
-              <li>Писав тест-кейси й чеклісти, заводив баг-репорти в Jira.</li>
-              <li>Перевіряв «під капотом»: запити в DevTools, відповіді бекенду в Postman, <code>SELECT</code>-запити до PostgreSQL — чи коректно зберігаються зв'язки «запчастина — модель авто», ціни, залишки, дані замовлення.</li>
-              <li>Тестував адмінку для менеджерів і контент-відділу (CRUD каталогу, залишки, замовлення, промо) та REST API між адмінкою і сайтом.</li>
-            </ul>
-            <div class="callout ex"><div class="callout-title">Як перевіряв адмінку</div>
-              <p>Менеджер змінює ціну чи залишок → дивлюсь, чи правильно це на сайті, що повертає API і що лежить у базі. Більшість багів із залишками, цінами в кошику та статусами замовлень виникали саме на стику адмінки, бази й асинхронної синхронізації.</p></div>
-            <div class="callout key"><div class="callout-title">Головне, що варто сказати</div>
-              <p>У цій ніші точність критична: деталь, що не підходить до авто, — це повернення й втрачені гроші. Тому фокус — фільтри, checkout, ціни, залишки. І я не зупиняюсь на UI: шукаю, де саме проблема — на фронті, в API чи в базі.</p></div>
-          </article>
+<h3 id="project">Проєкт</h3>
+<p>Інтернет-магазин автозапчастин: каталог, кошик, оформлення замовлення. Специфіка — великий каталог, оригінали й аналоги, підбір запчастин за маркою, моделлю та роком авто: система має показати тільки сумісні деталі.</p>
+<h4>Що робив</h4>
+<ul>
+  <li>Мануальне функціональне та регресійне тестування frontend, адмінки та API.</li>
+  <li>Писав тест-кейси й чеклісти, заводив баг-репорти в Jira.</li>
+  <li>Перевіряв «під капотом»: запити в DevTools, відповіді бекенду в Postman, <code>SELECT</code>-запити до PostgreSQL.</li>
+  <li>Тестував адмінку для менеджерів (каталог, ціни, залишки, замовлення, промо) і REST API між адмінкою та сайтом.</li>
+</ul>
+<h4>Приклад перевірки</h4>
+<p>Менеджер змінює ціну в адмінці → дивлюсь, чи правильно вона на сайті, що повертає API і що лежить у базі. Більшість багів виникала саме на стику адмінки, бази й синхронізації.</p>
+<div class="note"><p><b>Головне:</b> у цій ніші точність критична — деталь, що не підходить до авто, це повернення й втрачені гроші. Тому фокус на фільтрах, checkout, цінах і залишках. І я не зупиняюсь на UI: шукаю, де саме проблема — на фронті, в API чи в базі.</p></div>
 
-          <article class="card" id="frontend" data-title="Перехід з Front-End">
-            <h3>Чому з Front-End у QA</h3>
-            <p>Працював Front-End розробником на React: новий функціонал, фікси, інтеграція з API, робота з бекендом. Перед тим як віддати задачу, сам перевіряв її: DevTools, Postman, відтворення дефектів. Scrum, Jira, Git, постійна взаємодія з QA.</p>
-            <p>Зрозумів, що мені найцікавіше — тестування, аналіз вимог і пошук проблемних сценаріїв. Тому пішов у QA, а досвід розробки допомагає розуміти, як влаштований застосунок і чому виникають дефекти.</p>
-          </article>
+<h3 id="why-qa">Чому з Front-End у QA</h3>
+<p>Працював Front-End розробником на React: новий функціонал, фікси, інтеграція з API. Перед тим як віддати задачу, сам перевіряв її через DevTools і Postman. Працював за Scrum, з Jira і Git, постійно взаємодіяв із QA.</p>
+<p>Зрозумів, що мені найцікавіше — тестування, аналіз вимог і пошук проблемних сценаріїв. Досвід розробки допомагає розуміти, як влаштований застосунок і чому виникають дефекти.</p>
 
-          <article class="card" id="my-bugs" data-title="Баги на проєкті">
-            <h3>Цікаві баги, які знаходив</h3>
-            <h4>1. Розсинхрон залишків</h4>
-            <p>У каталозі товар «В наявності», а при «Купити» — «немає на складі». Каталог брав дані з кешу, що оновлювався раз на 30 хвилин, а кнопка кошика робила прямий запит до бекенду. Розкуплений товар ще пів години виглядав доступним.</p>
-            <h4>2. Фільтр губиться при пагінації</h4>
-            <p>На 2-й і далі сторінках параметри марки й моделі зникали з URL — бекенд віддавав вибірку за замовчуванням, і з'являлися несумісні запчастини. Через DevTools і Postman з'ясував: фронт не передавав query-параметри.</p>
-            <h4>3. Промокод не змінює суму</h4>
-            <p>Промокод «застосовано», а сума та сама. У Network бекенд повертав правильну знижку — отже, баг у відображенні на фронтенді.</p>
-            <h4>4. Старий статус замовлення</h4>
-            <p>Менеджер змінив статус в адмінці, а користувач бачить старий. Перевірив по черзі адмінку → API → базу: у базі все оновилось, клієнт отримував дані з кешу.</p>
-            <h4>5. Обмеження кількості</h4>
-            <p>На складі 2 шт. — замовити 3 не можна. Перевіряв запит і відповідь при зміні кількості, щоб обмеження було саме на бекенді, а не лише на фронті.</p>
-            <h4>Інші типові баги</h4>
-            <ul>
-              <li>Комбінація фільтрів («ціна + бренд») дає 0 результатів, хоча товари є; фільтри не скидаються між категоріями.</li>
-              <li>Пошук не знаходить товар за частковим збігом.</li>
-              <li>Сортування за ціною злітає при пагінації; товари дублюються на різних сторінках.</li>
-              <li>Різна ціна одного товару в картці та в списку; ціна в кошику без знижки.</li>
-              <li>Кількість у кошику скидається після оновлення сторінки або «Назад».</li>
-              <li>Історія замовлень не оновлюється одразу після оформлення.</li>
-            </ul>
-          </article>
-        </section>
+<h3 id="bugs">Баги, які знаходив</h3>
+<ol>
+  <li><b>Розсинхрон залишків.</b> У каталозі «В наявності», а при «Купити» — «немає на складі». Каталог брав дані з кешу (оновлення раз на 30 хв), а кошик — напряму з бекенду.</li>
+  <li><b>Фільтр губиться при пагінації.</b> На 2-й сторінці параметри марки й моделі зникали з URL, і з'являлися несумісні запчастини. Через DevTools і Postman знайшов: фронт не передавав query-параметри.</li>
+  <li><b>Промокод не змінює суму.</b> Бекенд повертав правильну знижку (видно в Network), отже баг у відображенні на фронті.</li>
+  <li><b>Старий статус замовлення.</b> Перевірив адмінку → API → базу: у базі все оновилось, клієнт отримував дані з кешу.</li>
+  <li><b>Обмеження кількості.</b> На складі 2 шт. — замовити 3 не можна. Перевіряв запит і відповідь, щоб обмеження було на бекенді, а не лише на фронті.</li>
+</ol>
+<h4>Інші типові баги</h4>
+<ul>
+  <li>Комбінація фільтрів дає 0 результатів, хоча товари є; фільтри не скидаються між категоріями.</li>
+  <li>Пошук не знаходить товар за частковим збігом.</li>
+  <li>Сортування за ціною злітає при пагінації; товари дублюються на сторінках.</li>
+  <li>Різна ціна одного товару в картці та в списку; ціна в кошику без знижки.</li>
+  <li>Кількість у кошику скидається після оновлення сторінки.</li>
+  <li>Історія замовлень не оновлюється одразу після оформлення.</li>
+</ul>
 
-        <!-- ============ 2. ТЕОРІЯ ============ -->
-        <section class="part" data-part="Теорія тестування" data-icon="2">
-          <h2 class="part-title"><span class="part-n">2</span>Теорія тестування</h2>
+<!-- 2 -->
+<h2 id="basics">2. Основи</h2>
 
-          <article class="card" id="basics" data-title="Базові поняття">
-            <h3>Базові поняття</h3>
-            <h4>Тестування</h4>
-            <p class="def">Процес перевірки ПЗ з метою виявлення дефектів та оцінки відповідності продукту вимогам.</p>
-            <h4>Якість</h4>
-            <p class="def">Ступінь відповідності продукту визначеним або очікуваним потребам користувачів та вимогам бізнесу.</p>
-            <h4>Статичне тестування</h4>
-            <p class="def">Тестування без запуску коду: перевірка вимог, специфікацій, дизайну, архітектури, а також статичний аналіз коду (Code Review, інструменти на кшталт SonarQube).</p>
-            <h4>Дефект (Bug)</h4>
-            <p class="def">Невідповідність між фактичною поведінкою ПЗ та очікуваним результатом, зафіксованим у вимогах чи специфікації.</p>
-          </article>
+<h3 id="definitions">Визначення</h3>
+<ul>
+  <li><b>Тестування</b> — перевірка ПЗ, щоб знайти дефекти й оцінити відповідність вимогам.</li>
+  <li><b>Якість</b> — наскільки продукт відповідає потребам користувачів і вимогам бізнесу.</li>
+  <li><b>Дефект (баг)</b> — різниця між фактичною поведінкою та очікуваною за вимогами.</li>
+</ul>
 
-          <article class="card" id="error-defect" data-title="Error, Defect, Failure">
-            <h3>Error → Defect → Failure</h3>
-            <div class="grid">
-              <div class="tile"><span class="en">Error</span><b>Помилка людини</b><p>Дія розробника чи аналітика, що призвела до неправильного результату.<br><span class="note">Розробник неправильно зрозумів логіку валідації пароля.</span></p></div>
-              <div class="tile"><span class="en">Defect / Bug</span><b>Дефект у коді</b><p>Помилка в коді чи документації як наслідок Error.<br><span class="note">У коді неправильна перевірка довжини рядка.</span></p></div>
-              <div class="tile"><span class="en">Failure</span><b>Збій у роботі</b><p>Некоректна робота системи під час використання.<br><span class="note">Користувач вводить правильні дані, але не може авторизуватися.</span></p></div>
-            </div>
-          </article>
+<h3 id="error-defect">Error, Defect, Failure</h3>
+<table>
+  <tr><th>Термін</th><th>Що це</th><th>Приклад</th></tr>
+  <tr><td><b>Error</b></td><td>Помилка людини</td><td>Розробник неправильно зрозумів логіку валідації пароля</td></tr>
+  <tr><td><b>Defect</b></td><td>Помилка в коді чи документації</td><td>У коді неправильна перевірка довжини рядка</td></tr>
+  <tr><td><b>Failure</b></td><td>Збій під час роботи</td><td>Користувач вводить правильні дані, але не може увійти</td></tr>
+</table>
 
-          <article class="card" id="principles" data-title="7 принципів тестування">
-            <h3>7 принципів тестування</h3>
-            <ol>
-              <li><b>Тестування показує наявність дефектів, а не їх відсутність.</b> Навіть якщо всі тести пройшли — помилки можуть бути.</li>
-              <li><b>Повне тестування неможливе.</b> Усі комбінації не перевірити, тому тестуємо на основі ризиків і пріоритетів.</li>
-              <li><b>Раннє тестування.</b> Чим раніше знайдено дефект, тим дешевше його виправити.</li>
-              <li><b>Скупчення дефектів (Defect Clustering).</b> Більшість дефектів — у невеликій кількості модулів.</li>
-              <li><b>Парадокс пестициду.</b> Однакові тести перестають знаходити нові дефекти — сценарії треба оновлювати.</li>
-              <li><b>Тестування залежить від контексту.</b> Банк, інтернет-магазин і гра тестуються по-різному.</li>
-              <li><b>Хибність «відсутності помилок».</b> Продукт без багів може не задовольняти потреби користувачів чи бізнесу.</li>
-            </ol>
-          </article>
+<h3 id="qa-qc">QA, QC, Testing</h3>
+<ul>
+  <li><b>QA</b> — найширше: забезпечення якості через побудову процесів розробки.</li>
+  <li><b>QC</b> — контроль якості самого продукту: аналіз результатів, відповідність вимогам.</li>
+  <li><b>Testing</b> — безпосередня перевірка функціоналу на практиці.</li>
+</ul>
+<p class="muted">Testing входить у QC, QC входить у QA.</p>
 
-          <article class="card" id="levels" data-title="Рівні тестування">
-            <h3>Рівні тестування</h3>
-            <div class="grid">
-              <div class="tile"><span class="en">Unit</span><b>Модульне</b><p>Окремі ізольовані блоки коду — функції, методи.</p></div>
-              <div class="tile"><span class="en">Integration</span><b>Інтеграційне</b><p>Взаємодія модулів чи сервісів (напр. API + БД).</p></div>
-              <div class="tile"><span class="en">System</span><b>Системне</b><p>Уся зібрана система на відповідність функціональним і нефункціональним вимогам.</p></div>
-              <div class="tile"><span class="en">Acceptance / UAT</span><b>Приймальне</b><p>Замовник або користувачі вирішують, чи готовий продукт до релізу.</p></div>
-            </div>
-          </article>
+<h3 id="verval">Верифікація і валідація</h3>
+<ul>
+  <li><b>Верифікація</b> — продукт відповідає вимогам і ТЗ. «Чи правильно ми робимо продукт?»</li>
+  <li><b>Валідація</b> — продукт відповідає реальним потребам користувача. «Чи робимо ми правильний продукт?»</li>
+</ul>
+<p class="muted">Приклад: у вимогах велосипед із квадратними колесами. Зробили за вимогами — верифікацію пройдено. Але їхати неможливо — валідацію не пройдено.</p>
 
-          <article class="card" id="types" data-title="Види тестування">
-            <h3>Види тестування</h3>
-            <h4>Функціональне</h4>
-            <ul>
-              <li><b>Functional</b> — перевірка конкретного функціоналу (чи працює «Придбати», чи застосовується промокод).</li>
-              <li><b>Security</b> — захищеність даних, неможливість обійти авторизацію, вразливості.</li>
-              <li><b>Interoperability</b> — взаємодія з іншими системами (чи надсилає платіжна система відповідь на наш бекенд).</li>
-            </ul>
-            <h4>Нефункціональне</h4>
-            <ul>
-              <li><b>Performance / Load</b> — поведінка під навантаженням (напр. наплив користувачів у Чорну п'ятницю).</li>
-              <li><b>Usability</b> — наскільки застосунок зручний, зрозумілий та інтуїтивний.</li>
-              <li><b>Адаптивність і кросбраузерність</b> — різні смартфони та браузери (Safari, Chrome).</li>
-              <li><b>Конфігураційне</b> — різні ОС, браузери, роздільності екрана, мережеві умови, характеристики пристроїв.</li>
-            </ul>
-          </article>
+<h3 id="principles">7 принципів тестування</h3>
+<ol>
+  <li><b>Тестування показує наявність дефектів</b>, а не їх відсутність.</li>
+  <li><b>Повне тестування неможливе</b> — тестуємо за ризиками й пріоритетами.</li>
+  <li><b>Раннє тестування</b> — чим раніше знайдено баг, тим дешевше його виправити.</li>
+  <li><b>Скупчення дефектів</b> — більшість багів у кількох модулях.</li>
+  <li><b>Парадокс пестициду</b> — ті самі тести перестають знаходити нові баги, їх треба оновлювати.</li>
+  <li><b>Залежність від контексту</b> — банк, магазин і гра тестуються по-різному.</li>
+  <li><b>Хибність «відсутності помилок»</b> — продукт без багів може бути непотрібним користувачу.</li>
+</ol>
 
-          <article class="card" id="methods" data-title="Black / White / Grey Box">
-            <h3>Методи: Black, White, Grey Box</h3>
-            <div class="grid">
-              <div class="tile"><span class="en">Black Box</span><b>Чорна скринька</b><p>Код не видно. Тестуємо через UI чи API як користувач: вхідні дані → результат. Основна зона Manual QA.</p></div>
-              <div class="tile"><span class="en">White Box</span><b>Біла скринька</b><p>Бачимо код і тестуємо його структуру. Зазвичай розробники в юніт-тестах.</p></div>
-              <div class="tile"><span class="en">Grey Box</span><b>Сіра скринька</b><p>Тестуємо як користувач, але частково дивимось всередину: дані в БД, серверні логи.</p></div>
-            </div>
-            <div class="callout tip"><div class="callout-title">Як це про мене</div><p>Перевірка UI + Postman + SELECT у базі — це якраз Grey Box.</p></div>
-          </article>
+<!-- 3 -->
+<h2 id="types">3. Види тестування</h2>
 
-          <article class="card" id="sdlc" data-title="SDLC і STLC">
-            <h3>SDLC і STLC</h3>
-            <h4>SDLC — Software Development Life Cycle</h4>
-            <ol class="steps"><li>Збір вимог</li><li>Аналіз</li><li>Проєктування</li><li>Розробка</li><li>Тестування</li><li>Реліз</li><li>Підтримка</li></ol>
-            <h4>STLC — Software Testing Life Cycle</h4>
-            <ol class="steps"><li>Аналіз вимог</li><li>Планування тестування</li><li>Створення тест-кейсів</li><li>Підготовка тестових даних</li><li>Виконання тестів</li><li>Завершення тестування</li></ol>
-          </article>
+<h3 id="func">Функціональне і нефункціональне</h3>
+<p><b>Функціональне</b> — <i>що</i> робить система:</p>
+<ul>
+  <li><b>Functional</b> — чи працює конкретна функція (кнопка «Купити», промокод).</li>
+  <li><b>Security</b> — захист даних, неможливість обійти авторизацію, вразливості.</li>
+  <li><b>Interoperability</b> — взаємодія з іншими системами (відповідь платіжної системи на наш бекенд).</li>
+</ul>
+<p><b>Нефункціональне</b> — <i>як</i> працює система:</p>
+<ul>
+  <li><b>Performance / Load</b> — поведінка під навантаженням (наплив у Чорну п'ятницю).</li>
+  <li><b>Usability</b> — наскільки зручно й зрозуміло.</li>
+  <li><b>Кросбраузерність і адаптивність</b> — різні браузери (Chrome, Safari) і екрани.</li>
+  <li><b>Конфігураційне</b> — різні ОС, браузери, роздільності, мережа, пристрої.</li>
+</ul>
 
-          <article class="card" id="verval" data-title="Верифікація та валідація">
-            <h3>Верифікація та валідація</h3>
-            <p><b>Верифікація</b> — перевірка, що продукт відповідає вимогам і ТЗ. <span class="note">Якщо у вимогах поле приймає лише цифри й символи — переконуємось, що літери воно не приймає.</span></p>
-            <p><b>Валідація</b> — перевірка, що продукт відповідає реальним потребам, очікуванням і бізнес-цілям користувача.</p>
-            <div class="callout ex"><div class="callout-title">Приклад: велосипед із квадратними колесами</div>
-              <p>У вимогах — квадратні колеса. Зробили за вимогами — верифікація пройдена. Але поїхати неможливо — валідацію не пройдено.</p></div>
-            <p class="note">Коротко: верифікація — «чи правильно ми робимо продукт?», валідація — «чи робимо ми правильний продукт?»</p>
-          </article>
+<h3 id="regression">Регресійне, Smoke, Sanity</h3>
+<p>Це тестування, пов'язане зі змінами в коді:</p>
+<table>
+  <tr><th>Вид</th><th>Що перевіряємо</th><th>Приклад у магазині</th></tr>
+  <tr><td><b>Smoke</b></td><td>Поверхнево основне після нового білду — чи можна тестувати далі</td><td>Сайт відкривається, логін працює, каталог і кошик відкриваються</td></tr>
+  <tr><td><b>Sanity</b></td><td>Конкретну зміну чи фікс і суміжне</td><td>Після фіксу кошика: товар додається, кількість і сума правильні</td></tr>
+  <tr><td><b>Регресійне</b></td><td>Нові зміни не зламали те, що раніше працювало</td><td>Після зміни цін перевіряємо каталог, кошик, checkout</td></tr>
+</table>
 
-          <article class="card" id="qa-qc" data-title="QA, QC і Testing">
-            <h3>QA, QC і Testing</h3>
-            <ul>
-              <li><b>QA (Quality Assurance)</b> — найширший рівень: забезпечення якості через побудову та оптимізацію процесів розробки.</li>
-              <li><b>QC (Quality Control)</b> — контроль якості самого продукту: аналіз результатів, відповідність артефактів вимогам.</li>
-              <li><b>Testing</b> — виконавчий рівень: безпосередня перевірка функціоналу на практиці.</li>
-            </ul>
-            <p class="note">Testing ⊂ QC ⊂ QA</p>
-          </article>
+<h3 id="static">Статичне і динамічне</h3>
+<ul>
+  <li><b>Статичне</b> — без запуску коду: перевірка вимог, специфікацій, дизайну, code review, аналізатори (SonarQube).</li>
+  <li><b>Динамічне</b> — із запуском застосунку: усе, що ми клікаємо й перевіряємо.</li>
+</ul>
 
-          <article class="card" id="regression" data-title="Регресійне, Smoke, Sanity">
-            <h3>Регресійне, Smoke і Sanity</h3>
-            <div class="grid">
-              <div class="tile"><span class="en">Regression</span><b>Регресійне</b><p>Переконатися, що нові зміни не зламали функціональність, яка раніше працювала.</p></div>
-              <div class="tile"><span class="en">Smoke</span><b>Димове</b><p>Поверхнева перевірка основного після нового білду — чи можна тестувати далі.</p></div>
-              <div class="tile"><span class="en">Sanity</span><b>Санітарне</b><p>Перевірка конкретної зміни чи фіксу і суміжного функціоналу.</p></div>
-            </div>
-            <div class="callout ex"><div class="callout-title">Smoke на прикладі магазину</div><p>Сайт відкривається · авторизація працює · переходи між основними сторінками · каталог відкривається · кошик працює.</p></div>
-            <div class="callout ex"><div class="callout-title">Sanity після фіксу кошика</div><p>Товар додається · кількість змінюється правильно · сума рахується коректно.</p></div>
-          </article>
+<h3 id="boxes">Black, White, Grey Box</h3>
+<ul>
+  <li><b>Black Box</b> — код не видно, тестуємо через UI чи API як користувач. Основне для Manual QA.</li>
+  <li><b>White Box</b> — бачимо код і тестуємо його структуру. Зазвичай розробники в юніт-тестах.</li>
+  <li><b>Grey Box</b> — тестуємо як користувач, але дивимось всередину: база, логи. <span class="muted">Це мій підхід: UI + Postman + SQL.</span></li>
+</ul>
 
-          <article class="card" id="bug-life" data-title="Життєвий цикл дефекту">
-            <h3>Життєвий цикл дефекту (Bug Life Cycle)</h3>
-            <ul class="flow">
-              <li><span class="tag b">New</span> QA знаходить дефект і створює баг-репорт у Jira / Trello.</li>
-              <li><span class="tag b">Assigned / Open</span> Lead QA, PM або Team Lead оцінює пріоритет і призначає розробника.</li>
-              <li><span class="tag w">In Progress</span> Розробник відтворює проблему і пише фікс.</li>
-              <li><span class="tag w">Fixed / Resolved</span> Фікс у новому білді на тестовому середовищі → Ready for QA.</li>
-              <li><span class="tag w">Retest</span> QA проходить кроки з баг-репорту на новому білді.</li>
-              <li><span class="tag">Closed</span> Дефект не відтворюється — баг закрито.</li>
-              <li class="alt"><span class="tag r">Reopened</span> Досі відтворюється — повертаємо розробнику з коментарем.</li>
-            </ul>
-          </article>
+<h3 id="levels">Рівні тестування</h3>
+<ol>
+  <li><b>Unit (модульне)</b> — окремі функції чи методи.</li>
+  <li><b>Integration (інтеграційне)</b> — взаємодія модулів чи сервісів (API + БД).</li>
+  <li><b>System (системне)</b> — уся система на відповідність вимогам.</li>
+  <li><b>Acceptance / UAT (приймальне)</b> — замовник вирішує, чи готовий продукт до релізу.</li>
+</ol>
 
-          <article class="card" id="docs" data-title="Тест-кейс, баг-репорт, чек-лист">
-            <h3>Тестова документація</h3>
-            <h4>Тест-кейс</h4>
-            <p>Документ із кроками, тестовими даними та очікуваним результатом для перевірки конкретного функціоналу.</p>
-            <ol class="steps"><li>ID та назва</li><li>Передумови</li><li>Кроки</li><li>Тестові дані</li><li>Очікуваний результат</li></ol>
-            <h4>Баг-репорт</h4>
-            <p>Документ, що описує умови, кроки та суть дефекту для передачі розробникам.</p>
-            <ol class="steps"><li>Summary</li><li>Environment</li><li>Preconditions</li><li>Steps to Reproduce</li><li>Actual Result</li><li>Expected Result</li><li>Severity</li><li>Priority</li><li>Attachments</li></ol>
-            <h4>Чек-лист</h4>
-            <p>Структурований список перевірок без детальних кроків — для швидкого контролю коректності роботи застосунку.</p>
-          </article>
+<!-- 4 -->
+<h2 id="process">4. Процес і документація</h2>
 
-          <article class="card" id="sev-pri" data-title="Severity і Priority">
-            <h3>Severity і Priority</h3>
-            <div class="grid">
-              <div class="tile"><span class="en">Severity</span><b>Критичність</b><p>Наскільки дефект впливає на роботу системи. Визначає тестувальник.</p></div>
-              <div class="tile"><span class="en">Priority</span><b>Пріоритет</b><p>Черговість виправлення. Визначає менеджмент або Product Owner.</p></div>
-            </div>
-          </article>
+<h3 id="sdlc">SDLC і STLC</h3>
+<p><b>SDLC</b> (життєвий цикл розробки): збір вимог → аналіз → проєктування → розробка → тестування → реліз → підтримка.</p>
+<p><b>STLC</b> (життєвий цикл тестування): аналіз вимог → планування → створення тест-кейсів → підготовка тестових даних → виконання тестів → завершення.</p>
 
-          <article class="card" id="design" data-title="Техніки тест-дизайну">
-            <h3>Техніки тест-дизайну</h3>
-            <p>Системні підходи, що дозволяють покрити максимум сценаріїв мінімальною кількістю тестів.</p>
-            <h4>Класи еквівалентності (Equivalence Partitioning)</h4>
-            <p>Ділимо вхідні дані на класи з однаковою поведінкою і беремо по одному значенню з класу.</p>
-            <div class="callout ex"><div class="callout-title">Поле «Вік»: 18–60</div><p>Валідний клас: 35 · Невалідний (&lt;18): 10 · Невалідний (&gt;60): 75</p></div>
-            <h4>Граничні значення (Boundary Value Analysis)</h4>
-            <p>Перевіряємо межі діапазону — там розробники найчастіше плутають <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>.</p>
-            <div class="callout ex"><div class="callout-title">Для 18–60</div><p>17 ❌ · 18 ✅ · 60 ✅ · 61 ❌</p></div>
-            <h4>Таблиця рішень (Decision Table)</h4>
-            <p>Для складної бізнес-логіки, що залежить від комбінацій умов.</p>
-            <h4>Перехід станів (State Transition)</h4>
-            <p>Поведінка системи при зміні станів. <span class="note">1-ша помилка пароля → 2-га → 3-тя → блокування акаунта.</span></p>
-            <h4>Попарне тестування (Pairwise)</h4>
-            <p>Перевіряємо всі комбінації кожної пари параметрів, а не повний перебір. <span class="note">Браузери: Chrome, Firefox × ОС: Windows, Mac.</span></p>
-          </article>
+<h3 id="methodologies">Waterfall, Agile, Scrum, Kanban</h3>
+<ul>
+  <li><b>Waterfall</b> — етапи строго по черзі. Тестування в самому кінці, перед релізом.</li>
+  <li><b>Agile</b> — продукт ділиться на маленькі частини, які випускаються поступово з фідбеком від користувачів.</li>
+  <li><b>Kanban</b> — без спринтів, безперервний потік задач.</li>
+</ul>
+<p><b>Scrum</b> — спринти по 1–2 тижні:</p>
+<ul>
+  <li><b>Backlog</b> — список усіх задач.</li>
+  <li><b>Planning</b> — обираємо задачі на спринт.</li>
+  <li><b>Daily</b> — 15 хв: що робив, що роблю, які блокери.</li>
+  <li><b>Тестування</b> — всередині спринту: задачу зробили → одразу перевіряю.</li>
+  <li><b>Review / Demo</b> — показ результату замовнику.</li>
+  <li><b>Retro</b> — що пішло добре, що покращити.</li>
+</ul>
 
-          <article class="card" id="agile" data-title="Методології: Waterfall, Agile, Scrum, Kanban">
-            <h3>Методології розробки</h3>
-            <p><b>Waterfall</b> — послідовна модель: кожен етап починається після повного завершення попереднього. Тестування — в самому кінці, перед релізом.</p>
-            <p><b>Agile</b> — проєкт ділиться на маленькі частини, які випускаються поступово з постійним зворотним зв'язком від користувачів.</p>
-            <h4>Scrum — спринти по 1–2 тижні</h4>
-            <ul>
-              <li><b>Backlog</b> — загальний список задач і фіч.</li>
-              <li><b>Sprint Planning</b> — команда обирає задачі, які встигне зробити за спринт.</li>
-              <li><b>Daily</b> — 15 хвилин щодня: що робив учора, що роблю сьогодні, чи є блокери.</li>
-              <li><b>Тестування</b> — всередині спринту: задачу зробили → одразу перевіряю. До кінця спринту фіча протестована.</li>
-              <li><b>Review / Demo</b> — показ готового функціоналу замовнику.</li>
-              <li><b>Retro</b> — що пішло добре, що ні і як покращити процеси.</li>
-            </ul>
-            <p><b>Kanban</b> — без спринтів і жорстких дедлайнів, безперервний потік задач.</p>
-          </article>
-        </section>
+<h3 id="testcase">Тест-кейс і чек-лист</h3>
+<p><b>Тест-кейс</b> — кроки, тестові дані й очікуваний результат для перевірки функції. Складається з: ID і назва, передумови, кроки, тестові дані, очікуваний результат.</p>
+<p><b>Чек-лист</b> — список перевірок без детальних кроків, для швидкого контролю.</p>
 
-        <!-- ============ 3. ВЕБ ============ -->
-        <section class="part" data-part="Веб і API" data-icon="3">
-          <h2 class="part-title"><span class="part-n">3</span>Веб і API</h2>
+<h3 id="bugreport">Баг-репорт, Severity, Priority</h3>
+<p><b>Баг-репорт</b> — опис дефекту для розробника. Складається з:</p>
+<ul>
+  <li>Summary (заголовок)</li>
+  <li>Environment (середовище)</li>
+  <li>Preconditions (передумови)</li>
+  <li>Steps to Reproduce (кроки)</li>
+  <li>Actual / Expected Result (фактичний / очікуваний)</li>
+  <li>Severity, Priority</li>
+  <li>Attachments (скриншоти, логи, відео)</li>
+</ul>
+<ul>
+  <li><b>Severity (критичність)</b> — наскільки баг впливає на систему. Визначає тестувальник.</li>
+  <li><b>Priority (пріоритет)</b> — як швидко треба виправити. Визначає PM або Product Owner.</li>
+</ul>
 
-          <article class="card" id="rest" data-title="Клієнт-сервер і REST API">
-            <h3>Клієнт-сервер і REST API</h3>
-            <p><b>Клієнт-серверна архітектура</b> — два компоненти: клієнт (браузер, застосунок) надсилає запити, сервер обробляє їх і повертає відповідь.</p>
-            <p><b>REST API</b> — архітектурний підхід, набір правил взаємодії клієнта й сервера через HTTP-запити для отримання, створення, оновлення та видалення даних.</p>
-            <div class="table-scroll"><table>
-              <tr><th>Метод</th><th>Що робить</th></tr>
-              <tr><td><code>GET</code></td><td>Отримання даних</td></tr>
-              <tr><td><code>POST</code></td><td>Створення нового запису</td></tr>
-              <tr><td><code>PUT</code> / <code>PATCH</code></td><td>Повне / часткове оновлення</td></tr>
-              <tr><td><code>DELETE</code></td><td>Видалення</td></tr>
-            </table></div>
-          </article>
+<h3 id="bug-life">Життєвий цикл бага</h3>
+<ol>
+  <li><b>New</b> — QA знайшов баг і створив репорт.</li>
+  <li><b>Assigned / Open</b> — лід або PM оцінює й призначає розробника.</li>
+  <li><b>In Progress</b> — розробник виправляє.</li>
+  <li><b>Fixed / Ready for QA</b> — фікс на тестовому середовищі.</li>
+  <li><b>Retest</b> — QA перевіряє за кроками з репорту.</li>
+  <li><b>Closed</b> — баг не відтворюється.</li>
+</ol>
+<p><b>Reopened</b> — якщо баг досі відтворюється, повертаємо розробнику з коментарем.</p>
 
-          <article class="card" id="codes" data-title="HTTP статус-коди">
-            <h3>HTTP статус-коди</h3>
-            <div class="table-scroll"><table>
-              <tr><th>Код</th><th>Значення</th></tr>
-              <tr><td><span class="tag">200 OK</span></td><td>Запит виконано, дані отримано</td></tr>
-              <tr><td><span class="tag">201 Created</span></td><td>Новий запис створено</td></tr>
-              <tr><td><span class="tag b">301 / 302</span></td><td>Перенаправлення на інший URL</td></tr>
-              <tr><td><span class="tag w">400 Bad Request</span></td><td>Некоректні дані в запиті (JSON, поля)</td></tr>
-              <tr><td><span class="tag w">401 Unauthorized</span></td><td>Не авторизований (немає токена)</td></tr>
-              <tr><td><span class="tag w">403 Forbidden</span></td><td>Немає прав доступу до ресурсу</td></tr>
-              <tr><td><span class="tag w">404 Not Found</span></td><td>Сторінку чи об'єкт не знайдено</td></tr>
-              <tr><td><span class="tag r">500 Internal Server Error</span></td><td>Помилка на бекенді</td></tr>
-              <tr><td><span class="tag r">502 Bad Gateway</span></td><td>Шлюз отримав некоректну відповідь</td></tr>
-              <tr><td><span class="tag r">504 Gateway Timeout</span></td><td>Сервер не дочекався відповіді (напр. від БД)</td></tr>
-            </table></div>
-            <p class="note">2xx — успіх · 3xx — редирект · 4xx — помилка клієнта · 5xx — помилка сервера</p>
-          </article>
+<!-- 5 -->
+<h2 id="design">5. Техніки тест-дизайну</h2>
+<p>Як покрити максимум сценаріїв мінімумом тестів.</p>
+<ul>
+  <li><b>Класи еквівалентності</b> — ділимо дані на групи з однаковою поведінкою, беремо по одному значенню.<br>
+    <span class="muted">Вік 18–60: валідне 35, невалідні 10 і 75.</span></li>
+  <li><b>Граничні значення</b> — перевіряємо межі, бо там плутають <code>&gt;</code> і <code>&gt;=</code>.<br>
+    <span class="muted">Для 18–60: 17 ❌, 18 ✅, 60 ✅, 61 ❌.</span></li>
+  <li><b>Таблиця рішень</b> — для логіки, що залежить від комбінацій умов.</li>
+  <li><b>Перехід станів</b> — як система змінює стан.<br>
+    <span class="muted">1-ша помилка пароля → 2-га → 3-тя → блокування акаунта.</span></li>
+  <li><b>Попарне (Pairwise)</b> — усі комбінації кожної пари параметрів замість повного перебору.<br>
+    <span class="muted">Chrome / Firefox × Windows / Mac.</span></li>
+</ul>
 
-          <article class="card" id="url" data-title="URL і DNS">
-            <h3>Що відбувається після введення URL (і що таке DNS)</h3>
-            <ul class="flow">
-              <li><b>DNS</b> перетворює доменне ім'я на IP-адресу сервера (<code>google.com</code> → <code>142.250.179.238</code>).</li>
-              <li>Браузер надсилає <b>HTTP-запит</b> (напр. <code>GET</code>).</li>
-              <li>Сервер обробляє запит: звертається до БД, виконує бізнес-логіку, формує відповідь.</li>
-              <li>Сервер повертає <b>HTTP-відповідь</b>: статус-код, заголовки (Headers), тіло (HTML, JSON…).</li>
-              <li>Браузер отримує HTML і будує <b>DOM</b>.</li>
-              <li>Завантажуються ресурси: CSS, JavaScript, зображення, шрифти, відео.</li>
-            </ul>
-          </article>
+<!-- 6 -->
+<h2 id="web">6. Веб і API</h2>
 
-          <article class="card" id="crypto" data-title="Шифрування і хешування">
-            <h3>Шифрування і хешування</h3>
-            <div class="grid">
-              <div class="tile"><b>Шифрування</b><p>Перетворення даних так, щоб прочитати їх міг лише власник ключа. <b>Можна розшифрувати</b> ключем.</p></div>
-              <div class="tile"><b>Хешування</b><p>Перетворення даних у рядок фіксованого розміру спеціальним алгоритмом. <b>Назад не розшифровується.</b></p></div>
-            </div>
-          </article>
+<h3 id="client-server">Клієнт-серверна архітектура</h3>
+<p>Система з двох частин:</p>
+<ul>
+  <li><b>Клієнт</b> — браузер або мобільний застосунок. Показує інтерфейс і надсилає запити.</li>
+  <li><b>Сервер</b> — приймає запити, виконує бізнес-логіку, працює з базою даних і повертає відповідь.</li>
+</ul>
+<p>Клієнт і сервер спілкуються через HTTP-запити, найчастіше через REST API.</p>
+<p class="muted">Приклад: натискаю «Додати в кошик» → браузер надсилає запит → сервер перевіряє залишок у базі → повертає відповідь → браузер оновлює кошик.</p>
 
-          <article class="card" id="storage" data-title="Cookies, Local Storage, Session Storage">
-            <h3>Cookies, Local Storage, Session Storage</h3>
-            <div class="table-scroll"><table>
-              <tr><th></th><th>Що це</th><th>Особливість</th></tr>
-              <tr><td><b>Cookies</b></td><td>Невеликі дані, які сайт зберігає в браузері (сесія, авторизація)</td><td>Автоматично додаються до HTTP-запитів</td></tr>
-              <tr><td><b>Local Storage</b></td><td>Сховище key-value для фронтенду (токен, налаштування)</td><td>Не відправляється з запитами; живе після закриття браузера</td></tr>
-              <tr><td><b>Session Storage</b></td><td>Таке ж key-value сховище</td><td>Живе лише в межах вкладки, очищається при її закритті</td></tr>
-            </table></div>
-          </article>
+<h3 id="url">Що відбувається після введення URL</h3>
+<ol>
+  <li><b>DNS</b> перетворює домен на IP-адресу сервера (<code>google.com</code> → <code>142.250.179.238</code>).</li>
+  <li>Браузер надсилає HTTP-запит (наприклад, <code>GET</code>).</li>
+  <li>Сервер обробляє запит: бізнес-логіка, база даних.</li>
+  <li>Сервер повертає відповідь: статус-код, заголовки, тіло (HTML, JSON).</li>
+  <li>Браузер будує DOM і завантажує CSS, JavaScript, зображення, шрифти.</li>
+</ol>
 
-          <article class="card" id="web-mobile" data-title="Web vs Mobile тестування">
-            <h3>Web vs Mobile</h3>
-            <p><b>Web:</b> різні браузери, розміри екрана, адаптивність, frontend, API та взаємодія з backend. Один сценарій у Chrome і Safari, на різних роздільностях, Network у DevTools, перевірка API.</p>
-            <p><b>Mobile:</b> окрім функціоналу — різні версії Android / iOS, розміри екрана, пристрої. Специфічні сценарії:</p>
-            <ul>
-              <li>дзвінок або SMS під час роботи застосунку;</li>
-              <li>згорнути й повернутися; повне закриття та повторний запуск;</li>
-              <li>втрата інтернету; перемикання Wi-Fi ↔ мобільний інтернет;</li>
-              <li>permissions: камера, геолокація, notifications;</li>
-              <li>поворот екрана;</li>
-              <li>оновлення застосунку; збереження стану користувача після перезапуску.</li>
-            </ul>
-            <div class="callout ex"><div class="callout-title">Приклад: форма в мобільному застосунку</div><p>Крім валідації полів перевірю: згорнути застосунок, заблокувати телефон, повернутися назад, втратити інтернет під час відправки.</p></div>
-            <p class="note">У web фокус на браузері та web-частині системи, у mobile — ще на пристрої, ОС, життєвому циклі застосунку та умовах використання.</p>
-          </article>
-        </section>
+<h3 id="rest">REST API і HTTP-методи</h3>
+<p><b>REST API</b> — набір правил, як клієнт і сервер обмінюються даними через HTTP.</p>
+<table>
+  <tr><th>Метод</th><th>Дія</th></tr>
+  <tr><td><code>GET</code></td><td>Отримати дані</td></tr>
+  <tr><td><code>POST</code></td><td>Створити запис</td></tr>
+  <tr><td><code>PUT</code></td><td>Оновити повністю</td></tr>
+  <tr><td><code>PATCH</code></td><td>Оновити частково</td></tr>
+  <tr><td><code>DELETE</code></td><td>Видалити</td></tr>
+</table>
 
-        <!-- ============ 4. SQL ============ -->
-        <section class="part" data-part="SQL" data-icon="4">
-          <h2 class="part-title"><span class="part-n">4</span>SQL</h2>
+<h3 id="codes">Статус-коди</h3>
+<p class="muted">2xx — успіх, 3xx — перенаправлення, 4xx — помилка клієнта, 5xx — помилка сервера.</p>
+<table>
+  <tr><th>Код</th><th>Значення</th></tr>
+  <tr><td>200</td><td>OK — запит виконано</td></tr>
+  <tr><td>201</td><td>Created — запис створено</td></tr>
+  <tr><td>301 / 302</td><td>Перенаправлення на інший URL</td></tr>
+  <tr><td>400</td><td>Bad Request — некоректні дані в запиті</td></tr>
+  <tr><td>401</td><td>Unauthorized — не авторизований</td></tr>
+  <tr><td>403</td><td>Forbidden — немає прав доступу</td></tr>
+  <tr><td>404</td><td>Not Found — не знайдено</td></tr>
+  <tr><td>500</td><td>Internal Server Error — помилка на бекенді</td></tr>
+  <tr><td>502</td><td>Bad Gateway — шлюз отримав некоректну відповідь</td></tr>
+  <tr><td>504</td><td>Gateway Timeout — сервер не дочекався відповіді</td></tr>
+</table>
 
-          <article class="card" id="sql" data-title="Основи SQL">
-            <h3>Основи SQL</h3>
-            <p><b>SQL (Structured Query Language)</b> — мова для роботи з реляційними базами даних: отримувати, фільтрувати, сортувати, змінювати й видаляти дані.</p>
-            <div class="table-scroll"><table>
-              <tr><th>Команда</th><th>Що робить</th></tr>
-              <tr><td><code>SELECT</code></td><td>Отримати дані</td></tr>
-              <tr><td><code>INSERT</code></td><td>Додати запис</td></tr>
-              <tr><td><code>UPDATE</code></td><td>Змінити запис</td></tr>
-              <tr><td><code>DELETE</code></td><td>Видалити запис</td></tr>
-              <tr><td><code>CREATE</code></td><td>Створити таблицю</td></tr>
-              <tr><td><code>ALTER</code></td><td>Змінити структуру таблиці</td></tr>
-              <tr><td><code>DROP</code></td><td>Видалити таблицю</td></tr>
-            </table></div>
-          </article>
+<h3 id="storage">Cookies, Local Storage, Session Storage</h3>
+<ul>
+  <li><b>Cookies</b> — невеликі дані в браузері (сесія, авторизація). <b>Автоматично надсилаються</b> з запитами.</li>
+  <li><b>Local Storage</b> — сховище key-value для фронтенду. Не надсилається з запитами, <b>живе після закриття браузера</b>.</li>
+  <li><b>Session Storage</b> — те саме, але <b>очищується при закритті вкладки</b>.</li>
+</ul>
 
-          <article class="card" id="sql-select" data-title="SELECT, WHERE, DISTINCT, LIKE, агрегатні функції">
-            <h3>SELECT, WHERE, DISTINCT, LIKE</h3>
-            <p><b>SELECT</b> — повертає дані з таблиці.</p>
-<pre><code><span class="sql-k">SELECT</span> * <span class="sql-k">FROM</span> users;
-<span class="sql-k">SELECT</span> name, email <span class="sql-k">FROM</span> users;</code></pre>
-            <p><b>WHERE</b> — фільтрує рядки за умовою.</p>
-<pre><code><span class="sql-k">SELECT</span> * <span class="sql-k">FROM</span> users <span class="sql-k">WHERE</span> age &gt; 18;</code></pre>
-            <p><b>DISTINCT</b> — прибирає дублікати. <b>LIKE</b> — пошук за шаблоном.</p>
-<pre><code><span class="sql-k">SELECT</span> * <span class="sql-k">FROM</span> users <span class="sql-k">WHERE</span> name <span class="sql-k">LIKE</span> <span class="sql-s">'A%'</span>;</code></pre>
-            <h4>Агрегатні функції</h4>
-            <p><code>COUNT()</code> · <code>SUM()</code> · <code>AVG()</code> · <code>MAX()</code> · <code>MIN()</code></p>
-          </article>
+<h3 id="crypto">Шифрування і хешування</h3>
+<ul>
+  <li><b>Шифрування</b> — дані може прочитати лише той, хто має ключ. <b>Можна розшифрувати.</b></li>
+  <li><b>Хешування</b> — дані перетворюються на рядок фіксованої довжини. <b>Назад не розшифрувати.</b></li>
+</ul>
 
-          <article class="card" id="sql-join" data-title="JOIN">
-            <h3>JOIN</h3>
-            <p>Об'єднує дані з кількох таблиць за спільним полем.</p>
-            <div class="grid">
-              <div class="tile"><b>INNER JOIN</b><p>Лише записи зі збігом в обох таблицях.</p></div>
-              <div class="tile"><b>LEFT JOIN</b><p>Усі записи з лівої таблиці, навіть без пари в правій.</p></div>
-              <div class="tile"><b>RIGHT JOIN</b><p>Усі записи з правої таблиці, навіть без пари в лівій.</p></div>
-              <div class="tile"><b>FULL JOIN</b><p>Усі записи з обох таблиць. Підтримується не всіма СУБД.</p></div>
-            </div>
-          </article>
-        </section>
+<!-- 7 -->
+<h2 id="sql">7. SQL</h2>
+<p><b>SQL</b> — мова для роботи з реляційними базами: отримати, відфільтрувати, змінити, видалити дані.</p>
+<table>
+  <tr><th>Команда</th><th>Дія</th></tr>
+  <tr><td><code>SELECT</code></td><td>Отримати дані</td></tr>
+  <tr><td><code>INSERT</code></td><td>Додати запис</td></tr>
+  <tr><td><code>UPDATE</code></td><td>Змінити запис</td></tr>
+  <tr><td><code>DELETE</code></td><td>Видалити запис</td></tr>
+  <tr><td><code>CREATE</code> / <code>ALTER</code> / <code>DROP</code></td><td>Створити / змінити / видалити таблицю</td></tr>
+</table>
+<h4>Основні конструкції</h4>
+<pre><code>SELECT * FROM users;                      -- усі дані
+SELECT name, email FROM users;            -- окремі колонки
+SELECT * FROM users WHERE age &gt; 18;       -- фільтр
+SELECT DISTINCT city FROM users;          -- без дублікатів
+SELECT * FROM users WHERE name LIKE 'A%'; -- пошук за шаблоном</code></pre>
+<p><b>Агрегатні функції:</b> <code>COUNT()</code>, <code>SUM()</code>, <code>AVG()</code>, <code>MAX()</code>, <code>MIN()</code>.</p>
+<h4>JOIN — об'єднання таблиць за спільним полем</h4>
+<ul>
+  <li><b>INNER JOIN</b> — лише записи зі збігом в обох таблицях.</li>
+  <li><b>LEFT JOIN</b> — усі записи з лівої таблиці, навіть без пари.</li>
+  <li><b>RIGHT JOIN</b> — усі записи з правої таблиці, навіть без пари.</li>
+  <li><b>FULL JOIN</b> — усі записи з обох (не всі СУБД підтримують).</li>
+</ul>
 
-        <!-- ============ 5. ПРАКТИКА ============ -->
-        <section class="part" data-part="Практичні питання" data-icon="5">
-          <h2 class="part-title"><span class="part-n">5</span>Практичні питання</h2>
+<!-- 8 -->
+<h2 id="web-mobile">8. Web vs Mobile</h2>
+<p><b>Web:</b> різні браузери й розміри екрана, адаптивність, запити в DevTools (Network), перевірка API.</p>
+<p><b>Mobile:</b> різні версії Android / iOS і пристрої, плюс специфічні сценарії:</p>
+<ul>
+  <li>дзвінок або SMS під час роботи;</li>
+  <li>згорнути й повернутися; закрити й запустити знову;</li>
+  <li>втрата інтернету; перемикання Wi-Fi ↔ мобільний;</li>
+  <li>дозволи: камера, геолокація, сповіщення;</li>
+  <li>поворот екрана;</li>
+  <li>оновлення застосунку і збереження стану користувача.</li>
+</ul>
+<p class="muted">Приклад: форму в застосунку перевіряю не лише на валідацію, а й на згортання, блокування телефону і втрату інтернету під час відправки.</p>
 
-          <article class="card" id="login" data-title="Як тестувати форму логіна">
-            <h3>Як тестувати форму логіна</h3>
-            <p>Комбіную кілька технік тест-дизайну:</p>
-            <ul>
-              <li><b>Класи еквівалентності</b> — валідні та невалідні типи даних.</li>
-              <li><b>Граничні значення</b> — мінімальна й максимальна довжина логіна та пароля.</li>
-              <li><b>Негативні сценарії</b> — порожні поля, спецсимволи.</li>
-              <li><b>Безпека</b> — стійкість до SQL-ін'єкцій та XSS.</li>
-              <li><b>State Transition</b> — блокування акаунта після 3–5 невдалих спроб.</li>
-            </ul>
-          </article>
+<!-- 9 -->
+<h2 id="practice">9. Практичні питання</h2>
 
-          <article class="card" id="sqli" data-title="SQL-ін'єкція">
-            <h3>SQL-ін'єкція</h3>
-            <p>Вразливість, коли зловмисник вводить SQL-код у поле на сайті, а бекенд без перевірки вставляє цей рядок у запит до БД — і база виконує чужий код.</p>
-            <p>Бекенд робить запит:</p>
-<pre><code><span class="sql-k">SELECT</span> * <span class="sql-k">FROM</span> users <span class="sql-k">WHERE</span> username = <span class="sql-s">'ввід'</span> <span class="sql-k">AND</span> password = <span class="sql-s">'ввід'</span>;</code></pre>
-            <p>У поле username вводимо <code>' OR '1'='1</code> — запит перетворюється на:</p>
-<pre><code><span class="sql-k">SELECT</span> * <span class="sql-k">FROM</span> users <span class="sql-k">WHERE</span> username = <span class="sql-s">''</span> <span class="sql-k">OR</span> <span class="sql-s">'1'</span>=<span class="sql-s">'1'</span> <span class="sql-k">AND</span> password = <span class="sql-s">'...'</span>;</code></pre>
-            <div class="callout bad"><div class="callout-title">Результат</div><p>Умова <code>'1'='1'</code> завжди true — перевірка пароля ігнорується, і користувача авторизує (зазвичай під першим юзером у базі — часто адміном).</p></div>
-          </article>
+<h3 id="login">Як тестувати форму логіна</h3>
+<ul>
+  <li><b>Класи еквівалентності</b> — валідні й невалідні дані.</li>
+  <li><b>Граничні значення</b> — мін. і макс. довжина логіна й пароля.</li>
+  <li><b>Негативні сценарії</b> — порожні поля, спецсимволи.</li>
+  <li><b>Безпека</b> — SQL-ін'єкції, XSS.</li>
+  <li><b>Перехід станів</b> — блокування після 3–5 невдалих спроб.</li>
+</ul>
 
-          <article class="card" id="priority" data-title="Пріоритизація задач перед релізом">
-            <h3>Пріоритизація задач перед релізом</h3>
-            <p>Спираюсь на пріоритети бізнесу:</p>
-            <ol>
-              <li><b>Критичні для бізнесу функції</b> — кошик, checkout, платіжний шлюз і, специфічно для нас, фільтр сумісності деталей. Якщо відвалиться оплата чи фільтр видасть деталь, що не підходить, — прямі збитки.</li>
-              <li><b>Високий регресійний ризик</b> — зміни логіки цін у каталозі, оновлена форма авторизації. Зміни старого коду часто ламають сусідні модулі.</li>
-              <li><b>Ізольовані фічі та косметика</b> — криве верстання футера, одруківка в описі компанії. Відкладаю на кінець або погоджую перенесення на наступний спринт.</li>
-            </ol>
-            <div class="callout key"><div class="callout-title">Головна мета</div><p>Захистити продакшн від критичних збоїв, які блокують роботу користувача.</p></div>
-            <h4>Якщо дві задачі однаково high-priority</h4>
-            <ul>
-              <li>Спочатку та, що блокує реліз або основний сценарій користувача.</li>
-              <li>Дивлюсь на дедлайн, кількість зачеплених користувачів, залежності від інших задач.</li>
-              <li>Якщо все одно незрозуміло — уточнюю в PM: <i>«У нас дві high-priority задачі. Яку краще взяти першою, якщо обидві треба закрити сьогодні?»</i> — і працюю за погодженим пріоритетом.</li>
-            </ul>
-          </article>
+<h3 id="sqli">SQL-ін'єкція</h3>
+<p>Вразливість: користувач вводить SQL-код у поле, а бекенд без перевірки вставляє його в запит до бази.</p>
+<p>Бекенд робить запит:</p>
+<pre><code>SELECT * FROM users WHERE username = 'ввід' AND password = 'ввід';</code></pre>
+<p>У поле логіна вводимо <code>' OR '1'='1</code> — і запит стає таким:</p>
+<pre><code>SELECT * FROM users WHERE username = '' OR '1'='1' AND password = '...';</code></pre>
+<p>Умова <code>'1'='1'</code> завжди істинна, тому перевірка пароля ігнорується і користувача пускає в систему (часто під першим акаунтом — адміном).</p>
 
-          <article class="card" id="overtime" data-title="Робота вночі або допізна перед релізом">
-            <h3>Чи готові затриматися перед релізом?</h3>
-            <p>Розумію, що перед важливими релізами бувають термінові ситуації. Якщо це потрібно для успішного випуску продукту — готовий допомогти команді й затриматися. Але це має бути виняток, а не звична практика.</p>
-          </article>
-        </section>
+<h3 id="priority">Пріоритизація перед релізом</h3>
+<ol>
+  <li><b>Що впливає на гроші</b> — кошик, checkout, оплата, фільтр сумісності деталей.</li>
+  <li><b>Високий ризик регресії</b> — зміни в старому коді (ціни, авторизація), які можуть зламати сусідні модулі.</li>
+  <li><b>Ізольоване й косметика</b> — верстка футера, одруківки. Відкладаю або переношу на наступний спринт.</li>
+</ol>
+<p><b>Якщо дві задачі однаково важливі:</b> спершу та, що блокує реліз або основний сценарій. Дивлюсь на дедлайн, кількість зачеплених користувачів, залежності. Якщо все одно неясно — уточнюю в PM і працюю за погодженим пріоритетом.</p>
 
-        <!-- ============ 6. ENGLISH ============ -->
-        <section class="part" data-part="English" data-icon="EN" id="english">
-          <h2 class="part-title"><span class="part-n">6</span>English HR questions</h2>
-          <div class="qa-tools">
-            <button class="btn" type="button" id="open-all">Розгорнути всі</button>
-            <button class="btn" type="button" id="close-all">Згорнути всі</button>
-          </div>
-          <div id="qa-list">
-            <details class="qa" data-title="Tell me about yourself"><summary><span class="qa-n">01</span>Tell me about yourself.</summary><div class="qa-a">
-              <p>I am <b>Yehor</b>, and I'm a Manual QA Engineer.</p>
-              <p>My last project was an e-commerce platform for selling auto parts. It was an online store with a product catalog, a shopping cart, and search by car brand, model, and year.</p>
-              <p>I did functional and regression testing, wrote test cases and checklists, and reported bugs in Jira. I also used Postman to test APIs and PostgreSQL to check data in the database.</p>
-              <p>I like QA because I enjoy finding problems before users do, and I care about product quality.</p>
-              <p>Now I'm looking for a team where I can grow, work on different projects, and use modern tools, including AI tools. That's why your vacancy caught my attention.</p>
-            </div></details>
-            <details class="qa" data-title="Tell me about your last project"><summary><span class="qa-n">02</span>Tell me about your last project.</summary><div class="qa-a">
-              <p>I worked on an e-commerce project for selling auto parts. It was an online store with a product catalog, a shopping cart, and search by car brand, model, and year.</p>
-              <p>I did manual functional and regression testing. I wrote test cases and checklists, worked in Jira, and reported bugs. I also used Postman to check APIs and PostgreSQL to check data in the database.</p>
-              <p>I mostly focused on the key parts of the website: products, search, prices, stock, cart, and checkout, because these parts directly affect sales.</p>
-            </div></details>
-            <details class="qa" data-title="What do you do in your free time"><summary><span class="qa-n">03</span>What do you do in your free time?</summary><div class="qa-a">
-              <p>In my free time, I like to stay active. I play volleyball, I'm interested in cars, and I enjoy fishing. I also keep learning new things in my professional field.</p>
-              <p>I think volleyball helps me improve teamwork, communication, and working toward a common goal. And professional learning helps me keep my skills up to date.</p>
-            </div></details>
-            <details class="qa" data-title="Why did you choose QA"><summary><span class="qa-n">04</span>Why did you choose QA?</summary><div class="qa-a">
-              <p>I like to understand how things work and find what can go wrong. QA gives me a chance to look at a product like a real user and also like an engineer. I like that my work directly helps the team release a better product.</p>
-            </div></details>
-            <details class="qa" data-title="What motivates you at work"><summary><span class="qa-n">05</span>What motivates you at work?</summary><div class="qa-a">
-              <p>I'm motivated when I see the result of my work. For example, when I find a critical bug before release and the users never see it.</p>
-              <p>I'm also motivated by learning. Every new project teaches me something new. And I like having clear responsibilities and some independence, so I can own my tasks.</p>
-            </div></details>
-            <details class="qa" data-title="What is your ideal team"><summary><span class="qa-n">06</span>What motivates you in a team? What is your ideal team?</summary><div class="qa-a">
-              <p>For me, a good team is a team with open communication, where people can ask questions and give honest feedback.</p>
-              <p>I like it when QA, developers, and PM work together toward one goal: a quality product. It's like volleyball: you can't win alone.</p>
-            </div></details>
-            <details class="qa" data-title="What do you expect from the company"><summary><span class="qa-n">07</span>What do you expect from the company?</summary><div class="qa-a">
-              <p>I expect clear processes, a friendly team, and opportunities to grow: mentoring, feedback, and interesting projects. I also value a company that supports its people.</p>
-            </div></details>
-            <details class="qa" data-title="What was your biggest challenge"><summary><span class="qa-n">08</span>What was your biggest challenge?</summary><div class="qa-a">
-              <p>On the auto parts project, we had a release with many changes to the checkout, and the deadline was very short. I had to test the new features and make sure nothing old was broken.</p>
-              <p>I prioritized the most critical flows (search, cart, checkout, and prices) and ran smoke testing first, then regression on the risky areas. I also checked the API in Postman and the data in the database to find problems faster.</p>
-              <p>As a result, I found <mark class="ph">[a critical bug, e.g. a wrong price in the cart]</mark> before the release, it was fixed in time, and the release went smoothly. I learned to prioritize testing by risk when time is limited.</p>
-            </div></details>
-            <details class="qa" data-title="Strengths and weaknesses"><summary><span class="qa-n">09</span>What are your strengths and weaknesses?</summary><div class="qa-a">
-              <p><b>Strengths:</b> I'm attentive to details, and I don't stop at the happy path. I check edge cases, invalid data, and different browsers. I'm also responsible: if something blocks my testing, I tell the team early.</p>
-              <p><b>Weakness:</b> Sometimes I spend too much time checking small details. Now I prioritize by risk: critical features first, then the rest.</p>
-            </div></details>
-            <details class="qa" data-title="Do you use AI tools"><summary><span class="qa-n">10</span>Do you use AI tools in your work?</summary><div class="qa-a">
-              <p>Yes, I use ChatGPT and Claude to generate test ideas, checklists, and test data, for example different invalid inputs for forms. I also use them to understand logs or API responses faster.</p>
-              <p>But I always check the result myself, because AI can make mistakes. For me, AI is a helper that saves time, not a replacement for thinking.</p>
-            </div></details>
-            <details class="qa" data-title="Can you work on 2-3 projects"><summary><span class="qa-n">11</span>Can you work on 2–3 projects at the same time?</summary><div class="qa-a">
-              <p>To be honest, as a QA engineer I haven't worked on two or three projects at the same time yet. But I'm ready for it.</p>
-              <p>I'm good at organizing my work. I would keep separate notes and test status for each project and plan my day by priorities and deadlines. If there's a conflict between projects, I'll tell the PM early so we can decide together what is more important.</p>
-            </div></details>
-            <details class="qa" data-title="A developer says your bug is not a bug"><summary><span class="qa-n">12</span>A developer says your bug is "not a bug". What do you do?</summary><div class="qa-a">
-              <p>First, I check the requirements again. If I'm right, I explain calmly with facts: steps, expected vs actual result, screenshots or logs. If the requirements are unclear, I ask the PM or BA to clarify. The goal is not to win the argument but to make the product better.</p>
-            </div></details>
-            <details class="qa" data-title="Why are you looking for a new job"><summary><span class="qa-n">13</span>Why are you looking for a new job?</summary><div class="qa-a">
-              <p><mark class="ph">[The project ended / I want to grow further]</mark>. I want to work on different projects, use new tools, and develop my skills in a company with strong processes and mentoring.</p>
-            </div></details>
-            <details class="qa" data-title="Where do you see yourself in 2-3 years"><summary><span class="qa-n">14</span>Where do you see yourself in 2–3 years?</summary><div class="qa-a">
-              <p>I see myself as a Middle QA Engineer with strong experience in web and mobile testing. I also want to start with automation, for example Playwright, and keep using AI tools effectively.</p>
-            </div></details>
-            <details class="qa" data-title="Salary expectations"><summary><span class="qa-n">15</span>What are your salary expectations?</summary><div class="qa-a">
-              <p>My expectations are around <mark class="ph">[X–Y] dollars</mark>, but I'm open to discussing it, depending on the full offer and the tasks.</p>
-            </div></details>
-          </div>
-        </section>
+<h3 id="overtime">Чи готові затриматися перед релізом?</h3>
+<p>Розумію, що перед важливими релізами бувають термінові ситуації, і готовий допомогти команді. Але це має бути виняток, а не звична практика.</p>
 
-        <p class="empty" id="empty">Нічого не знайдено. Спробуй інше слово.</p>
-      </div>
-    </main>
-  </div>
-</div>
+<!-- 10 -->
+<h2 id="english">10. English: HR-питання</h2>
+<p class="muted">Жовтим виділено те, що треба заповнити під себе.</p>
 
-<script>
-(() => {
-  // навігація з розділів і карток
-  const nav = document.getElementById('nav');
-  const parts = [...document.querySelectorAll('.part')];
-  const links = [];
-  parts.forEach(part => {
-    const g = document.createElement('div');
-    g.className = 'nav-group';
-    g.innerHTML = '<i>' + part.dataset.icon + '</i>' + part.dataset.part;
-    nav.appendChild(g);
-    const items = part.querySelectorAll('.card');
-    if (items.length) {
-      items.forEach(card => {
-        const a = document.createElement('a');
-        a.href = '#' + card.id;
-        a.textContent = card.dataset.title;
-        a.dataset.target = card.id;
-        nav.appendChild(a); links.push(a);
-      });
-    } else {
-      const a = document.createElement('a');
-      a.href = '#' + part.id; a.textContent = 'Питання й відповіді'; a.dataset.target = part.id;
-      nav.appendChild(a); links.push(a);
-    }
-  });
+<h3>Tell me about yourself.</h3>
+<p>I am Yehor, and I'm a Manual QA Engineer. My last project was an e-commerce platform for selling auto parts: a product catalog, a shopping cart, and search by car brand, model, and year.</p>
+<p>I did functional and regression testing, wrote test cases and checklists, and reported bugs in Jira. I also used Postman to test APIs and PostgreSQL to check data in the database.</p>
+<p>I like QA because I enjoy finding problems before users do. Now I'm looking for a team where I can grow, work on different projects, and use modern tools, including AI tools.</p>
 
-  // підсвітка активного пункту
-  const byId = Object.fromEntries(links.map(a => [a.dataset.target, a]));
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const a = byId[e.target.id];
-        if (a) { a.classList.add('active'); const sd = a.closest('.side'); if (sd && sd.scrollHeight > sd.clientHeight && getComputedStyle(sd).visibility !== 'hidden') { const top = a.offsetTop - sd.clientHeight / 2; sd.scrollTo({ top }); } }
-      }
-    });
-  }, { rootMargin: '-15% 0px -75% 0px' });
-  Object.keys(byId).forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); });
+<h3>Tell me about your last project.</h3>
+<p>It was an online store for auto parts with a catalog, a cart, and search by car brand, model, and year. I did manual functional and regression testing, wrote test cases and checklists, and reported bugs in Jira. I used Postman for APIs and PostgreSQL for data checks. I focused on products, search, prices, stock, cart, and checkout, because they directly affect sales.</p>
 
-  // мобільне меню
-  const side = document.getElementById('side'), scrim = document.getElementById('scrim');
-  const close = () => { side.classList.remove('open'); scrim.classList.remove('on'); };
-  document.getElementById('menu').onclick = () => { side.classList.add('open'); scrim.classList.add('on'); };
-  scrim.onclick = close;
-  nav.addEventListener('click', e => { if (e.target.tagName === 'A') close(); });
+<h3>Why did you choose QA?</h3>
+<p>I like to understand how things work and find what can go wrong. QA lets me look at a product like a real user and like an engineer. My work directly helps the team release a better product.</p>
 
-  // тема
-  const root = document.documentElement;
-  try { const t = localStorage.getItem('qa-theme'); if (t) root.dataset.theme = t; } catch (e) {}
-  document.getElementById('theme').onclick = () => {
-    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-    root.dataset.theme = dark ? 'light' : 'dark';
-    try { localStorage.setItem('qa-theme', root.dataset.theme); } catch (e) {}
-  };
+<h3>What are your strengths and weaknesses?</h3>
+<p><b>Strengths:</b> I'm attentive to details and I don't stop at the happy path — I check edge cases, invalid data, and different browsers. I'm responsible: if something blocks my testing, I tell the team early.</p>
+<p><b>Weakness:</b> Sometimes I spend too much time on small details. Now I prioritize by risk: critical features first, then the rest.</p>
 
-  // відповіді англійською
-  const qas = [...document.querySelectorAll('details.qa')];
-  document.getElementById('open-all').onclick = () => qas.forEach(d => d.open = true);
-  document.getElementById('close-all').onclick = () => qas.forEach(d => d.open = false);
+<h3>What was your biggest challenge?</h3>
+<p>We had a release with many checkout changes and a short deadline. I prioritized the critical flows — search, cart, checkout, prices — ran smoke testing first, then regression on risky areas, and checked the API and the database to find problems faster. I found <span class="fill">[a critical bug, e.g. a wrong price in the cart]</span> before the release, it was fixed in time, and the release went smoothly. I learned to prioritize testing by risk when time is limited.</p>
 
-  // пошук
-  const blocks = [...document.querySelectorAll('.card, details.qa')];
-  const orig = new Map(blocks.map(b => [b, b.innerHTML]));
-  const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  function mark(el, re) {
-    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-    const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(n => {
-      if (!re.test(n.nodeValue)) return;
-      const span = document.createElement('span');
-      span.innerHTML = n.nodeValue.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])).replace(re, m => '<mark class="hit">' + m + '</mark>');
-      n.replaceWith(...span.childNodes);
-    });
-  }
-  let timer;
-  document.getElementById('q').addEventListener('input', e => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      const q = e.target.value.trim().toLowerCase();
-      let any = false;
-      blocks.forEach(b => { b.innerHTML = orig.get(b); });
-      blocks.forEach(b => {
-        const hit = !q || b.textContent.toLowerCase().includes(q) || (b.dataset.title || '').toLowerCase().includes(q);
-        b.classList.toggle('hidden', !hit);
-        if (hit) any = true;
-        if (q && hit) { mark(b, new RegExp(esc(q), 'gi')); if (b.tagName === 'DETAILS') b.open = true; }
-      });
-      parts.forEach(p => { p.style.display = p.querySelector('.card:not(.hidden), details.qa:not(.hidden)') ? '' : 'none'; });
-      links.forEach(a => { const t = document.getElementById(a.dataset.target); a.classList.toggle('hidden', !!t && (t.classList.contains('hidden') || t.style.display === 'none')); });
-      document.getElementById('empty').style.display = any ? 'none' : 'block';
-      document.getElementById('open-all').parentElement.style.display = q ? 'none' : '';
-    }, 120);
-  });
-})();
-</script>
+<h3>A developer says your bug is "not a bug". What do you do?</h3>
+<p>First, I check the requirements again. If I'm right, I explain calmly with facts: steps, expected vs actual result, screenshots or logs. If the requirements are unclear, I ask the PM or BA. The goal is not to win the argument but to make the product better.</p>
+
+<h3>Do you use AI tools in your work?</h3>
+<p>Yes, I use ChatGPT and Claude to generate test ideas, checklists, and test data, and to understand logs or API responses faster. But I always check the result myself, because AI can make mistakes. It's a helper, not a replacement for thinking.</p>
+
+<h3>Can you work on 2–3 projects at the same time?</h3>
+<p>I haven't done it as a QA yet, but I'm ready. I would keep separate notes and test status for each project and plan my day by priorities and deadlines. If projects conflict, I'll tell the PM early so we decide together.</p>
+
+<h3>What motivates you at work?</h3>
+<p>Seeing the result — for example, finding a critical bug before users ever see it. Learning new things on every project. And clear responsibilities with some independence, so I can own my tasks.</p>
+
+<h3>What is your ideal team?</h3>
+<p>A team with open communication, where people can ask questions and give honest feedback, and where QA, developers, and PM work toward one goal — a quality product. It's like volleyball: you can't win alone.</p>
+
+<h3>What do you expect from the company?</h3>
+<p>Clear processes, a friendly team, and opportunities to grow: mentoring, feedback, and interesting projects.</p>
+
+<h3>What do you do in your free time?</h3>
+<p>I play volleyball, I'm interested in cars, and I enjoy fishing. I also keep learning in my professional field. Volleyball helps me with teamwork and communication.</p>
+
+<h3>Why are you looking for a new job?</h3>
+<p><span class="fill">[The project ended / I want to grow further]</span>. I want to work on different projects, use new tools, and grow in a company with strong processes and mentoring.</p>
+
+<h3>Where do you see yourself in 2–3 years?</h3>
+<p>As a Middle QA Engineer with strong web and mobile testing experience. I also want to start with automation, for example Playwright, and keep using AI tools effectively.</p>
+
+<h3>What are your salary expectations?</h3>
+<p>Around <span class="fill">[X–Y] dollars</span>, but I'm open to discussing it depending on the full offer and the tasks.</p>
+
+</main>
+<a class="top" href="#toc">↑ Зміст</a>
 </body>
 </html>
