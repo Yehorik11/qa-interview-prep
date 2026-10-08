@@ -34,7 +34,7 @@
 }
 * { box-sizing: border-box; }
 html { scroll-padding-top: 20px; scroll-behavior: smooth; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.62; }
+body { margin: 0; overflow-x: hidden; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.62; }
 a { color: var(--accent-ink); text-underline-offset: 3px; }
 button, input { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
@@ -77,6 +77,16 @@ pre code { background: none; padding: 0; font-size: inherit; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
 .chip { font-size: 13px; padding: 5px 11px; border-radius: 99px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); text-decoration: none; }
 .chip:hover { color: var(--ink); border-color: var(--muted); }
+
+
+.profile { display: flex; align-items: center; gap: 16px; }
+.avatar { width: 64px; height: 64px; border-radius: 18px; background: var(--accent); color: var(--surface); display: grid; place-items: center; font-family: var(--f-display); font-weight: 700; font-size: 28px; flex: none; }
+.profile h1 { margin: 2px 0 0; }
+.hero .lead { margin-top: 16px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; }
+.fact span { display: block; font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.fact b { font-size: 15px; font-weight: 600; line-height: 1.4; }
 
 /* розділи */
 .part { margin-top: 56px; }
@@ -145,8 +155,8 @@ details.qa[open] summary::after { content: "сховати"; }
 
 @media (max-width: 900px) {
   .app { grid-template-columns: 1fr; }
-  .side { position: fixed; z-index: 30; inset: 0 auto 0 0; width: min(86vw, 320px); transform: translateX(-100%); transition: transform .25s; box-shadow: 0 0 40px rgba(0,0,0,.2); }
-  .side.open { transform: none; }
+  .side { position: fixed; z-index: 30; inset: 0 auto 0 0; width: min(86vw, 320px); height: 100%; transform: translateX(-105%); visibility: hidden; transition: transform .25s, visibility .25s; box-shadow: 0 0 40px rgba(0,0,0,.2); }
+  .side.open { transform: none; visibility: visible; }
   .topbar { display: flex; position: sticky; top: 0; z-index: 20; align-items: center; gap: 10px; padding: 10px 16px; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
   .topbar b { font-family: var(--f-display); font-size: 14px; }
   .main { padding: 24px 16px 80px; }
@@ -167,7 +177,7 @@ details.qa[open] summary::after { content: "сховати"; }
 <body>
 <div class="app">
   <aside class="side" id="side">
-    <a class="brand" href="#top">
+    <a class="brand" href="#me">
       <span class="brand-mark">QA</span>
       <span class="brand-name">Interview Prep<small>Manual QA · шпаргалка</small></span>
     </a>
@@ -191,18 +201,20 @@ details.qa[open] summary::after { content: "сховати"; }
     <main class="main">
       <div class="page" id="top">
 
-        <header class="hero">
-          <div class="eyebrow"><b>Manual QA</b> · e-commerce · автозапчастини</div>
-          <h1>Підготовка до співбесіди</h1>
-          <p class="lead">Усе, що треба освіжити перед інтерв'ю: як розповідати про досвід, базова теорія, веб і SQL, практичні кейси та відповіді англійською.</p>
-          <div class="chips">
-            <a class="chip" href="#about-short">Про досвід</a>
-            <a class="chip" href="#principles">Принципи</a>
-            <a class="chip" href="#regression">Smoke / Sanity</a>
-            <a class="chip" href="#design">Тест-дизайн</a>
-            <a class="chip" href="#rest">REST і коди</a>
-            <a class="chip" href="#sql">SQL</a>
-            <a class="chip" href="#english">English</a>
+        <header class="hero" id="me">
+          <div class="profile">
+            <div class="avatar">Є</div>
+            <div>
+              <div class="eyebrow"><b>Manual QA Engineer</b> · ex Front-End (React)</div>
+              <h1>Єгор</h1>
+            </div>
+          </div>
+          <p class="lead">Тестую e-commerce: каталог, підбір, кошик, checkout, ціни й залишки. Перевіряю не тільки UI, а й API та дані в базі — щоб знайти, де саме виникає проблема.</p>
+          <div class="facts">
+            <div class="fact"><span>Тестування</span><b>Функціональне, регресійне, smoke, sanity</b></div>
+            <div class="fact"><span>Документація</span><b>Тест-кейси, чеклісти, баг-репорти</b></div>
+            <div class="fact"><span>Інструменти</span><b>Jira · Postman · DevTools · PostgreSQL · Git</b></div>
+            <div class="fact"><span>Процес</span><b>Scrum, робота з dev і PM</b></div>
           </div>
         </header>
 
@@ -210,76 +222,49 @@ details.qa[open] summary::after { content: "сховати"; }
         <section class="part" data-part="Про мене" data-icon="1">
           <h2 class="part-title"><span class="part-n">1</span>Мій досвід</h2>
 
-          <article class="card" id="about-short" data-title="Коротка розповідь">
-            <h3>Коротка розповідь про проєкт</h3>
-            <p>Працював над e-commerce проєктом з продажу автозапчастин. Тестував frontend, адмінку, API, іноді перевіряв дані через SQL. Основний фокус — каталог, підбір запчастин, кошик, замовлення, ціни, залишки.</p>
-            <p>Основний напрямок — мануальне тестування, найчастіше функціональне та регресійне. Писав тест-кейси та чеклісти, створював баг-репорти в Jira.</p>
-            <p>Багато працював із логікою підбору: користувач обирає марку, модель і рік автомобіля, а система має показати тільки сумісні запчастини. Тому я перевіряв не лише UI, а й які дані йдуть на бекенд і що він повертає — через <b>DevTools, Postman і SQL</b>.</p>
-            <div class="callout key"><div class="callout-title">Ключова думка</div>
-              <p>Я не обмежувався перевіркою тільки UI. Якщо бачив проблему — розбирався, де саме вона виникає: на фронті, в API-запиті чи в базі.</p></div>
-          </article>
-
-          <article class="card" id="about-full" data-title="Розгорнута розповідь">
-            <h3>Розгорнута версія</h3>
-            <p>Це була платформа з продажу автозапчастин — класичний інтернет-магазин із каталогом, кошиком і оформленням замовлення. Специфіка: великий каталог, оригінальні запчастини та аналоги, складна логіка підбору за маркою, моделлю та роком випуску авто.</p>
+          <article class="card" id="about" data-title="Проєкт: автозапчастини">
+            <h3>Проєкт: інтернет-магазин автозапчастин</h3>
+            <p>Класичний e-commerce із каталогом, кошиком і оформленням замовлення. Специфіка — великий каталог, оригінали та аналоги, і складна логіка підбору: користувач обирає марку, модель і рік авто, а система має показати тільки сумісні запчастини.</p>
             <h4>Що робив</h4>
             <ul>
-              <li>Мануальне тестування: функціональне, регресійне.</li>
-              <li>Тестова документація: чеклісти, тест-кейси. Робота в Jira, баг-репорти.</li>
-              <li>Перевірка «під капотом»: відповіді бекенду в Postman, прямі <code>SELECT</code>-запити до PostgreSQL — щоб переконатися, що зв'язки «запчастина — модель авто» і дані в картці замовлення зберігаються коректно.</li>
+              <li>Мануальне функціональне та регресійне тестування frontend, адмінки та API.</li>
+              <li>Писав тест-кейси й чеклісти, заводив баг-репорти в Jira.</li>
+              <li>Перевіряв «під капотом»: запити в DevTools, відповіді бекенду в Postman, <code>SELECT</code>-запити до PostgreSQL — чи коректно зберігаються зв'язки «запчастина — модель авто», ціни, залишки, дані замовлення.</li>
+              <li>Тестував адмінку для менеджерів і контент-відділу (CRUD каталогу, залишки, замовлення, промо) та REST API між адмінкою і сайтом.</li>
             </ul>
-            <h4>Адмін-панель</h4>
-            <p>Внутрішня адмінка для менеджерів і контент-відділу: CRUD-операції з каталогом, залишки на складах, обробка замовлень, промо-акції. Я тестував і UI адмінки, і REST API інтеграції між адмінкою та сайтом.</p>
-            <div class="callout ex"><div class="callout-title">Приклад</div>
-              <p>Менеджер змінює ціну або залишок в адмінці → перевіряю, що зміна правильно відображається на сайті, коректно збереглася в базі і правильно повертається через API.</p></div>
-            <p>Більшість багів із залишками, невідповідністю цін у кошику та затримкою статусів замовлень виникали саме на стику бізнес-логіки адмінки, бази даних та асинхронної синхронізації статусів.</p>
-            <div class="callout key"><div class="callout-title">Чому фокус на критичному</div>
-              <p>У ніші автозапчастин точність критична: якщо система підбере деталь, яка фізично не підходить до авто, бізнес втрачає гроші на поверненнях і клієнтів. Тому особливий акцент — на фільтрах, чекауті, цінах і залишках.</p></div>
+            <div class="callout ex"><div class="callout-title">Як перевіряв адмінку</div>
+              <p>Менеджер змінює ціну чи залишок → дивлюсь, чи правильно це на сайті, що повертає API і що лежить у базі. Більшість багів із залишками, цінами в кошику та статусами замовлень виникали саме на стику адмінки, бази й асинхронної синхронізації.</p></div>
+            <div class="callout key"><div class="callout-title">Головне, що варто сказати</div>
+              <p>У цій ніші точність критична: деталь, що не підходить до авто, — це повернення й втрачені гроші. Тому фокус — фільтри, checkout, ціни, залишки. І я не зупиняюсь на UI: шукаю, де саме проблема — на фронті, в API чи в базі.</p></div>
           </article>
 
           <article class="card" id="frontend" data-title="Перехід з Front-End">
-            <h3>Перехід з Front-End у QA</h3>
-            <p>Працював Front-End розробником, переважно з React: новий функціонал, виправлення багів, інтеграція з API, взаємодія з backend-розробниками.</p>
-            <p>Перед передачею задач на рев'ю й тестування сам перевіряв роботу застосунку: аналізував запити в DevTools, перевіряв API в Postman, відтворював і досліджував дефекти. Працював за Scrum, Jira для задач, Git для командної розробки, регулярно взаємодіяв із QA.</p>
-            <p>Згодом зрозумів, що мене найбільше цікавлять процеси тестування, аналіз вимог і пошук проблемних сценаріїв. Тому вирішив розвиватися в QA — а досвід розробки допомагає краще розуміти будову вебзастосунків і причини дефектів.</p>
+            <h3>Чому з Front-End у QA</h3>
+            <p>Працював Front-End розробником на React: новий функціонал, фікси, інтеграція з API, робота з бекендом. Перед тим як віддати задачу, сам перевіряв її: DevTools, Postman, відтворення дефектів. Scrum, Jira, Git, постійна взаємодія з QA.</p>
+            <p>Зрозумів, що мені найцікавіше — тестування, аналіз вимог і пошук проблемних сценаріїв. Тому пішов у QA, а досвід розробки допомагає розуміти, як влаштований застосунок і чому виникають дефекти.</p>
           </article>
 
-          <article class="card" id="typical-bugs" data-title="Типові баги на проєкті">
-            <h3>Типові баги на проєкті</h3>
-            <h4>Каталог / пошук / фільтри</h4>
-            <ul>
-              <li>Фільтри не скидаються при переході між категоріями або дають некоректну вибірку в комбінації («ціна + бренд» → 0 результатів, хоча товари є).</li>
-              <li>Пошук не знаходить товар за частковим збігом.</li>
-              <li>Сортування «за ціною» втрачається при переході на наступну сторінку пагінації.</li>
-              <li>Товар «у наявності», але при додаванні в кошик — «немає на складі».</li>
-              <li>Дублі карток або різна ціна одного товару в картці та в списку.</li>
-              <li>Пагінація: втрачається позиція скролу або товари дублюються на різних сторінках.</li>
-            </ul>
-            <h4>Кошик / оформлення / оплата</h4>
-            <ul>
-              <li>Ціна в кошику не збігається з ціною на картці (не застосувалась акція чи знижка).</li>
-              <li>Промокод застосовано, але сума не перераховується до перезавантаження сторінки.</li>
-              <li>Кількість товару скидається після оновлення сторінки або кнопки «Назад».</li>
-            </ul>
-            <h4>Особистий кабінет</h4>
-            <ul>
-              <li>Історія замовлень не оновлюється одразу після оформлення (затримка синхронізації).</li>
-              <li>Статус замовлення застрягає на «В обробці».</li>
-            </ul>
-          </article>
-
-          <article class="card" id="my-bugs" data-title="Приклади моїх багів">
-            <h3>Приклади цікавих багів</h3>
-            <h4>1. Розсинхрон залишків при додаванні в кошик</h4>
-            <p>У каталозі товар «В наявності», а після «Купити» — помилка, що товару немає. З'ясувалося: каталог брав дані з кешу, який оновлювався раз на пів години, а кнопка «Додати до кошика» робила прямий запит до бекенду. Розкуплений товар ще ~30 хвилин показувався як доступний.</p>
-            <h4>2. Фільтри губляться при пагінації</h4>
-            <p>Фільтр марки й моделі візуально працював, але на 2-й і далі сторінках параметри фільтра в URL губилися — бекенд віддавав вибірку за замовчуванням, і з'являлися несумісні запчастини. Локалізував через DevTools і Postman: фронт не передавав query-параметри при переході між сторінками.</p>
+          <article class="card" id="my-bugs" data-title="Баги на проєкті">
+            <h3>Цікаві баги, які знаходив</h3>
+            <h4>1. Розсинхрон залишків</h4>
+            <p>У каталозі товар «В наявності», а при «Купити» — «немає на складі». Каталог брав дані з кешу, що оновлювався раз на 30 хвилин, а кнопка кошика робила прямий запит до бекенду. Розкуплений товар ще пів години виглядав доступним.</p>
+            <h4>2. Фільтр губиться при пагінації</h4>
+            <p>На 2-й і далі сторінках параметри марки й моделі зникали з URL — бекенд віддавав вибірку за замовчуванням, і з'являлися несумісні запчастини. Через DevTools і Postman з'ясував: фронт не передавав query-параметри.</p>
             <h4>3. Промокод не змінює суму</h4>
-            <p>Валідний промокод «застосовано», але сума не змінювалась. У Network запит проходив успішно, і бекенд повертав правильну знижку — отже, проблема у відображенні на фронтенді.</p>
-            <h4>4. Старий статус замовлення в кабінеті</h4>
-            <p>Менеджер змінював статус в адмінці, а користувач бачив старий. Перевірив послідовно: адмінку → API для користувача → базу. У базі все оновилось, а клієнт отримував застарілі дані через кешування.</p>
-            <h4>5. Обмеження кількості на бекенді</h4>
-            <p>На складі 2 одиниці — замовити 3 не можна. Перевіряв запит при зміні кількості та відповідь бекенду, щоб переконатися, що обмеження реалізоване саме на бекенді, а не лише на фронті.</p>
+            <p>Промокод «застосовано», а сума та сама. У Network бекенд повертав правильну знижку — отже, баг у відображенні на фронтенді.</p>
+            <h4>4. Старий статус замовлення</h4>
+            <p>Менеджер змінив статус в адмінці, а користувач бачить старий. Перевірив по черзі адмінку → API → базу: у базі все оновилось, клієнт отримував дані з кешу.</p>
+            <h4>5. Обмеження кількості</h4>
+            <p>На складі 2 шт. — замовити 3 не можна. Перевіряв запит і відповідь при зміні кількості, щоб обмеження було саме на бекенді, а не лише на фронті.</p>
+            <h4>Інші типові баги</h4>
+            <ul>
+              <li>Комбінація фільтрів («ціна + бренд») дає 0 результатів, хоча товари є; фільтри не скидаються між категоріями.</li>
+              <li>Пошук не знаходить товар за частковим збігом.</li>
+              <li>Сортування за ціною злітає при пагінації; товари дублюються на різних сторінках.</li>
+              <li>Різна ціна одного товару в картці та в списку; ціна в кошику без знижки.</li>
+              <li>Кількість у кошику скидається після оновлення сторінки або «Назад».</li>
+              <li>Історія замовлень не оновлюється одразу після оформлення.</li>
+            </ul>
           </article>
         </section>
 
@@ -498,10 +483,10 @@ details.qa[open] summary::after { content: "сховати"; }
             <p class="note">2xx — успіх · 3xx — редирект · 4xx — помилка клієнта · 5xx — помилка сервера</p>
           </article>
 
-          <article class="card" id="url" data-title="Що відбувається після введення URL">
-            <h3>Що відбувається після введення URL</h3>
+          <article class="card" id="url" data-title="URL і DNS">
+            <h3>Що відбувається після введення URL (і що таке DNS)</h3>
             <ul class="flow">
-              <li><b>DNS</b> перетворює доменне ім'я на IP-адресу сервера.</li>
+              <li><b>DNS</b> перетворює доменне ім'я на IP-адресу сервера (<code>google.com</code> → <code>142.250.179.238</code>).</li>
               <li>Браузер надсилає <b>HTTP-запит</b> (напр. <code>GET</code>).</li>
               <li>Сервер обробляє запит: звертається до БД, виконує бізнес-логіку, формує відповідь.</li>
               <li>Сервер повертає <b>HTTP-відповідь</b>: статус-код, заголовки (Headers), тіло (HTML, JSON…).</li>
@@ -510,9 +495,8 @@ details.qa[open] summary::after { content: "сховати"; }
             </ul>
           </article>
 
-          <article class="card" id="dns" data-title="DNS, шифрування, хешування">
-            <h3>DNS, шифрування, хешування</h3>
-            <p><b>DNS (Domain Name System)</b> — перетворює доменне ім'я на IP-адресу. <span class="note"><code>google.com</code> → <code>142.250.179.238</code></span></p>
+          <article class="card" id="crypto" data-title="Шифрування і хешування">
+            <h3>Шифрування і хешування</h3>
             <div class="grid">
               <div class="tile"><b>Шифрування</b><p>Перетворення даних так, щоб прочитати їх міг лише власник ключа. <b>Можна розшифрувати</b> ключем.</p></div>
               <div class="tile"><b>Хешування</b><p>Перетворення даних у рядок фіксованого розміру спеціальним алгоритмом. <b>Назад не розшифровується.</b></p></div>
@@ -749,7 +733,7 @@ details.qa[open] summary::after { content: "сховати"; }
       if (e.isIntersecting) {
         links.forEach(l => l.classList.remove('active'));
         const a = byId[e.target.id];
-        if (a) { a.classList.add('active'); a.scrollIntoView({ block: 'nearest' }); }
+        if (a) { a.classList.add('active'); const sd = a.closest('.side'); if (sd && sd.scrollHeight > sd.clientHeight && getComputedStyle(sd).visibility !== 'hidden') { const top = a.offsetTop - sd.clientHeight / 2; sd.scrollTo({ top }); } }
       }
     });
   }, { rootMargin: '-15% 0px -75% 0px' });
