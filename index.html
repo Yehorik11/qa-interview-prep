@@ -46,6 +46,7 @@ pre code { background: none; padding: 0; font-size: inherit; }
 
 /* каркас */
 .app { display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); min-height: 100vh; }
+.app > div { min-width: 0; }
 .side { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--surface); border-right: 1px solid var(--line); padding: 20px 14px 40px; display: flex; flex-direction: column; gap: 14px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); padding: 4px 6px; }
 .brand-mark { width: 34px; height: 34px; border-radius: 9px; background: var(--accent); color: var(--surface); display: grid; place-items: center; font-family: var(--f-mono); font-weight: 600; font-size: 14px; flex: none; }
@@ -154,18 +155,37 @@ details.qa[open] summary::after { content: "сховати"; }
 .empty { display: none; text-align: center; color: var(--muted); padding: 40px 0; }
 
 @media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
+  .app { grid-template-columns: minmax(0, 1fr); }
+  body { font-size: 16px; }
+  .part { margin-top: 40px; }
+  .part-title { font-size: 21px; gap: 10px; }
+  .part-n { width: 30px; height: 30px; font-size: 13px; }
+  .card h3 { font-size: 19px; }
+  .def { font-size: 16px; }
+  .lead { font-size: 16px; }
+  .avatar { width: 52px; height: 52px; font-size: 22px; border-radius: 14px; }
+  .facts { grid-template-columns: 1fr 1fr; }
+  .fact { padding: 8px 10px; }
+  .fact b { font-size: 14px; }
+  .grid { grid-template-columns: 1fr; }
+  td:first-child { white-space: normal; }
+  th, td { padding: 8px 10px; }
+  pre { font-size: 12.5px; padding: 12px; }
+  .steps li { font-size: 14px; }
+  details.qa summary { padding: 12px; gap: 8px; }
+  details.qa summary::after { display: none; }
   .side { position: fixed; z-index: 30; inset: 0 auto 0 0; width: min(86vw, 320px); height: 100%; transform: translateX(-105%); visibility: hidden; transition: transform .25s, visibility .25s; box-shadow: 0 0 40px rgba(0,0,0,.2); }
   .side.open { transform: none; visibility: visible; }
   .topbar { display: flex; position: sticky; top: 0; z-index: 20; align-items: center; gap: 10px; padding: 10px 16px; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
   .topbar b { font-family: var(--f-display); font-size: 14px; }
   .main { padding: 24px 16px 80px; }
   html { scroll-padding-top: 64px; }
-  .card { padding: 18px 16px 6px; }
+  .card { padding: 16px 14px 4px; border-radius: 14px; }
   .qa-a { padding-left: 16px; }
   .scrim { position: fixed; inset: 0; z-index: 25; background: rgba(0,0,0,.35); display: none; }
   .scrim.on { display: block; }
 }
+@media (max-width: 380px) { .facts { grid-template-columns: 1fr; } }
 @media print {
   .side, .topbar, .qa-tools { display: none !important; }
   .app { display: block; }
