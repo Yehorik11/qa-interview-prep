@@ -5,42 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>QA Interview Prep</title>
 <style>
-:root { --bg: #ffffff; --text: #1d1d1f; --muted: #6b6b70; --line: #e3e3e6; --soft: #f5f5f7; --accent: #0b6e4f; }
-@media (prefers-color-scheme: dark) {
-  :root { --bg: #161617; --text: #ececee; --muted: #a0a0a6; --line: #333336; --soft: #222224; --accent: #5cc99d; color-scheme: dark; }
-}
+:root { --bg: #f4f5f7; --paper: #ffffff; --text: #1f2328; --muted: #5f6670; --line: #e2e4e8; }
+@media (prefers-color-scheme: dark) { :root { --bg: #111214; --paper: #1a1b1e; --text: #e8e9eb; --muted: #a2a7ae; --line: #2e3035; color-scheme: dark; } }
 * { box-sizing: border-box; }
+html { scroll-padding-top: 16px; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
-main { max-width: 760px; margin: 0 auto; padding: 24px 20px 120px; }
-h2 { font-size: 26px; line-height: 1.25; margin: 56px 0 16px; padding-top: 20px; border-top: 2px solid var(--text); }
-h2:first-child { margin-top: 0; }
-h3 { font-size: 20px; line-height: 1.3; margin: 36px 0 10px; }
-h4 { font-size: 17px; margin: 22px 0 6px; }
-p, ul, ol { margin: 0 0 14px; }
+.layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); max-width: 1100px; margin: 0 auto; gap: 32px; padding: 0 20px; }
+.side { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 28px 0; }
+.side b { display: block; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 10px 10px; }
+.side a { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 15px; font-weight: 500; }
+.side a i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); flex: none; }
+.side a:hover { background: var(--paper); }
+.side a.on { background: color-mix(in srgb, var(--c) 14%, var(--paper)); color: var(--c); font-weight: 700; }
+main { padding: 28px 0 120px; min-width: 0; }
+.s { --soft: color-mix(in srgb, var(--c) 9%, var(--paper)); background: var(--paper); border: 1px solid var(--line); border-top: 5px solid var(--c); border-radius: 12px; padding: 4px 28px 14px; margin-bottom: 28px; }
+@media (prefers-color-scheme: dark) { .s { --c2: color-mix(in srgb, var(--c) 60%, white); } }
+h2 { font-size: 26px; line-height: 1.25; margin: 18px 0 8px; color: var(--c); }
+h3 { font-size: 19px; line-height: 1.3; margin: 30px 0 10px; padding-left: 12px; border-left: 4px solid var(--c); }
+h4 { font-size: 16px; margin: 20px 0 6px; color: var(--c); }
+p, ul, ol { margin: 0 0 12px; }
 ul, ol { padding-left: 1.4em; }
-li { margin: 4px 0; }
+li { margin: 5px 0; }
+li::marker { color: var(--c); font-weight: 700; }
+.s b { color: color-mix(in srgb, var(--c) 75%, var(--text)); }
+@media (prefers-color-scheme: dark) { .s b, h2, h4 { color: color-mix(in srgb, var(--c) 55%, white); } h3 { border-left-color: color-mix(in srgb, var(--c) 70%, white); } }
+.ex { background: var(--soft); border-radius: 8px; padding: 8px 12px; color: var(--text); }
+ul.ex { padding-left: 2em; }
+li .ex { display: block; margin-top: 4px; font-size: 15px; }
 code { font: 0.9em ui-monospace, Menlo, Consolas, monospace; background: var(--soft); padding: 1px 5px; border-radius: 4px; }
-pre { background: var(--soft); border-radius: 8px; padding: 12px 14px; overflow-x: auto; margin: 0 0 14px; }
+pre { background: var(--soft); border-radius: 8px; padding: 12px 14px; overflow-x: auto; margin: 0 0 12px; }
 pre code { background: none; padding: 0; font-size: 14px; }
-.ex { color: var(--muted); }
 .fill { background: #fff3c4; color: #6b4d00; padding: 0 4px; border-radius: 3px; }
 @media (prefers-color-scheme: dark) { .fill { background: #4a3c10; color: #ffe08a; } }
 .top { position: fixed; right: 16px; bottom: 16px; background: var(--text); color: var(--bg); text-decoration: none; font-size: 18px; font-weight: 600; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 99px; box-shadow: 0 2px 10px rgba(0,0,0,.2); }
-@media (max-width: 600px) {
+@media (max-width: 860px) {
+  .layout { display: block; padding: 0; }
+  .side { position: sticky; top: 0; z-index: 10; height: auto; display: flex; gap: 6px; overflow-x: auto; padding: 10px 12px; background: var(--bg); border-bottom: 1px solid var(--line); scrollbar-width: none; }
+  .side::-webkit-scrollbar { display: none; }
+  .side b { display: none; }
+  .side a { flex: none; font-size: 14px; padding: 6px 12px; background: var(--paper); border: 1px solid var(--line); border-radius: 99px; }
+  .side a i { width: 8px; height: 8px; }
+  html { scroll-padding-top: 64px; }
+  main { padding: 14px 12px 100px; }
+  .s { padding: 2px 16px 10px; }
   body { font-size: 16px; }
-  main { padding: 20px 16px 100px; }
-  h2 { font-size: 22px; margin-top: 44px; }
-  h3 { font-size: 18px; }
+  h2 { font-size: 22px; }
+  h3 { font-size: 17px; }
 }
-@media print { .top { display: none; } }
+@media print { .side, .top { display: none; } .layout { display: block; } }
 </style>
 </head>
 <body>
+<div class="layout">
+<nav class="side"><b>Шпаргалка QA</b><a href="#about" style="--c:#0f7b5a"><i></i>Про мене</a><a href="#bugs" style="--c:#c0392b"><i></i>Баги на проєкті</a><a href="#theory" style="--c:#2563eb"><i></i>Теорія тестування</a><a href="#docs" style="--c:#7c3aed"><i></i>Документація і дефекти</a><a href="#design" style="--c:#0e7490"><i></i>Тест-дизайн</a><a href="#web" style="--c:#b45309"><i></i>Веб і API</a><a href="#sql" style="--c:#4338ca"><i></i>SQL</a><a href="#mobile" style="--c:#be185d"><i></i>Web &amp; Mobile</a><a href="#practice" style="--c:#0f766e"><i></i>Практичні питання</a><a href="#english" style="--c:#475569"><i></i>English</a></nav>
 <main id="top">
-
-<!-- ================= ПРО МЕНЕ ================= -->
+<section class="s" id="about" style="--c:#0f7b5a">
 <h2>Про мене</h2>
-
 <h3>Розповідь про досвід</h3>
 <p>Працював над e-commerce проектом, з продажу автозапчасти. Я тестував frontend, адмінку, API, іноді перевіряв дані через SQL. Основний фокус - каталог, підбір запчастин, кошик, замовлення, ціни, залишки. Основним моїм напрямком було мануальне тестування. Найчастіше працював із функціональним та регресійним, писав тест-кейси, створював баг-репорти в Jira. Окремо багато працював із каталогом та логікою підбору запчастин. Наприклад, користувач міг вибрати марку, модель і рік автомобіля, після чого система мала показати тільки сумісні запчастини. Тому я перевіряв не тільки те, що відображається на UI, а й те, які дані передаються на бекенд і що він повертає.</p>
 <p>Для цього використовував DevTools, Postman і SQL. Наприклад, якщо на сайті відображалася неправильна ціна або залишок, я міг перевірити API-відповідь, а потім через SELECT-запит подивитися, які дані фактично зберігаються в базі.</p>
@@ -57,7 +77,10 @@ pre code { background: none; padding: 0; font-size: 14px; }
 
 <h3>Перехід з Front-End</h3>
 <p>Я працював Front-End розробником, переважно з React. Займався розробкою нового функціоналу, виправленням багів, інтеграцією з API та взаємодією з backend-розробниками. У процесі роботи приділяв велику увагу якості реалізованого функціоналу. Перед передачею задач на рев'ю та тестування самостійно перевіряв роботу застосунку, аналізував запити через DevTools, використовував Postman для перевірки API, відтворював і досліджував виявлені дефекти. Працював за Scrum, використовував Jira для ведення задач і Git для командної розробки. Також регулярно взаємодіяв із QA-інженерами під час аналізу та виправлення багів. Згодом зрозумів, що мене особливо цікавлять процеси тестування, аналіз вимог і пошук проблемних сценаріїв. Тому вирішив розвиватися саме в напрямку QA, водночас мій досвід розробки допомагає краще розуміти будову вебзастосунків і причини виникнення дефектів.</p>
+</section>
 
+<section class="s" id="bugs" style="--c:#c0392b">
+<h2>Баги на проєкті</h2>
 <h3>Типові баги на проєкті</h3>
 <h4>Каталог / пошук / фільтри</h4>
 <ul>
@@ -88,10 +111,10 @@ pre code { background: none; padding: 0; font-size: 14px; }
   <li>Був випадок, коли менеджер змінював статус замовлення в адмінці, але користувач ще деякий час бачив старий статус в особистому кабінеті. Я перевіряв послідовно: чи змінився статус в адмінці, що повертає API для користувача і що зберігається в базі. Так вдалося зрозуміти, що дані в базі вже оновилися, але клієнтська частина отримувала стару інформацію через механізм кешування.</li>
   <li>Ще перевіряв сценарії з кількістю товару в кошику. Наприклад, якщо на складі залишалося 2 одиниці, користувач не повинен був мати можливість замовити 3. Я перевірив запит який відправляється при зміні кількості та яку відповідь повертає бекенд. Це дозволяє перевірити, чи обмеження реалізоване саме на бекенді, а не тільки на фронтенді.</li>
 </ol>
+</section>
 
-<!-- ================= ТЕОРІЯ ================= -->
+<section class="s" id="theory" style="--c:#2563eb">
 <h2>Теорія тестування</h2>
-
 <h3>Тестування</h3>
 <p>Це процес перевірки програмного забезпечення з метою виявлення дефектів та оцінки відповідності продукту вимогам.</p>
 
@@ -197,10 +220,10 @@ pre code { background: none; padding: 0; font-size: 14px; }
   <li><b>Ретроспектива (Ретро):</b> Созвон в конце спринта, где команда обсуждает, что прошло хорошо, а что пошло не так и как улучшить процессы.</li>
 </ul>
 <p><b>Kanban</b> - В отличие от Scrum, в Kanban нет спринтов и жестких дедлайнов. Это модель непрерывного потока задач.</p>
+</section>
 
-<!-- ================= ДОКУМЕНТАЦІЯ І БАГИ ================= -->
+<section class="s" id="docs" style="--c:#7c3aed">
 <h2>Документація і дефекти</h2>
-
 <h3>Тест-кейс</h3>
 <p>Документ, що містить кроки, тестові дані та очікуваний результат для перевірки конкретного функціоналу.</p>
 <p>Основные элементы тест-кейса:</p>
@@ -254,8 +277,9 @@ pre code { background: none; padding: 0; font-size: 14px; }
   <li><b>Closed (Закрито):</b> Якщо дефект більше не відтворюється, QA закриває баг-репорт.</li>
   <li><b>Reopened (Перевідкрито):</b> Якщо після перевірки дефект все ще відтворюється (або виправлення створило новий баг безпосередньо у цьому місці), QA повертає його розробнику з коментарем.</li>
 </ul>
+</section>
 
-<!-- ================= ТЕСТ-ДИЗАЙН ================= -->
+<section class="s" id="design" style="--c:#0e7490">
 <h2>Техники тест-дизайна</h2>
 <p>Це системні підходи до створення тест-кейсів, які дозволяють покрити максимальну кількість можливих сценаріїв використання мінімальною кількістю тестів.</p>
 
@@ -288,10 +312,10 @@ pre code { background: none; padding: 0; font-size: 14px; }
 <h3>Попарное тестирование (Pairwise Testing)</h3>
 <p>Техніка формування наборів тестових даних, за якої перевіряються всі можливі комбінації кожної пари параметрів. Це дозволяє значно скоротити кількість тестів порівняно з повним перебором усіх можливих комбінацій.</p>
 <p class="ex"><b>Пример:</b> Браузеры: Chrome, Firefox. Операционные системы: Windows, Mac.</p>
+</section>
 
-<!-- ================= ВЕБ ================= -->
+<section class="s" id="web" style="--c:#b45309">
 <h2>Веб і API</h2>
-
 <h3>Клієнт-серверна архітектура</h3>
 <p>В основі клієнт-серверної архітектури є два компоненти: клієнт і сервер.</p>
 
@@ -355,10 +379,10 @@ pre code { background: none; padding: 0; font-size: 14px; }
 <p><b>Cookies</b> — це невеликі дані, які сайт може зберігати в браузері. Вони можуть використовуватися, наприклад, для сесії або авторизації. Якщо cookie підходить для конкретного запиту, браузер може автоматично додати її до HTTP-запиту.</p>
 <p><b>Local Storage</b> — це сховище в браузері, де frontend може зберігати дані у форматі key-value. Наприклад, токен, налаштування або інші дані, які потрібно зберігати між сесіями браузера. На відміну від cookie, Local Storage не відправляється автоматично разом із HTTP-запитом.</p>
 <p>Local Storage сохраняет данные после закрытия браузера, пока их не удалят. <b>Session Storage</b> обычно живёт только в рамках конкретной вкладки/сессии и очищается после закрытия вкладки.</p>
+</section>
 
-<!-- ================= SQL ================= -->
+<section class="s" id="sql" style="--c:#4338ca">
 <h2>SQL</h2>
-
 <h3>Що таке SQL?</h3>
 <p>SQL (Structured Query Language) - це мова для роботи з реляційними базами даних. За її допомогою можна отримувати, фільтрувати, сортувати, змінювати та видаляти дані.</p>
 <ul>
@@ -399,8 +423,9 @@ SELECT name, email FROM users;</code></pre>
   <li><b>RIGHT JOIN</b></li>
   <li><b>FULL JOIN</b> (підтримується не всіма СУБД)</li>
 </ul>
+</section>
 
-<!-- ================= WEB & MOBILE ================= -->
+<section class="s" id="mobile" style="--c:#be185d">
 <h2>Web &amp; Mobile</h2>
 <p>У web я більше звертаю увагу на різні браузери, розміри екрана, адаптивність, frontend, API та взаємодію з backend. Наприклад, перевіряю один і той самий сценарій у Chrome та Safari, на різних роздільних здатностях, дивлюся Network у DevTools і перевіряю API.</p>
 <p>У mobile, крім функціональності самого застосунку, перевіряю роботу на різних версіях Android або iOS, різних розмірах екрана та пристроях.</p>
@@ -418,10 +443,10 @@ SELECT name, email FROM users;</code></pre>
 </ul>
 <p>Наприклад, якщо користувач заповнює форму в mobile application, я перевірю не тільки валідацію полів. Я ще перевірю, що буде, якщо згорнути застосунок, заблокувати телефон, повернутися назад або втратити інтернет під час відправки форми.</p>
 <p>Тобто у web я більше фокусуюся на браузері та web-частині системи, а в mobile додатково враховую пристрій, операційну систему, життєвий цикл застосунку та різні умови використання.</p>
+</section>
 
-<!-- ================= ПРАКТИКА ================= -->
+<section class="s" id="practice" style="--c:#0f766e">
 <h2>Практичні питання</h2>
-
 <h3>Как вы тестируете форму логина?</h3>
 <p>При тестировании формы авторизации я комбинирую несколько техник тест-дизайна:</p>
 <ul>
@@ -459,10 +484,10 @@ SELECT name, email FROM users;</code></pre>
 
 <h3>Чи готові ви працювати вночі або затриматися перед релізом?</h3>
 <p>Я розумію, що перед важливими релізами можуть виникати термінові ситуації. Якщо це необхідно для успішного випуску продукту, я готовий допомогти команді та затриматися. Але такі випадки це більш виняток, а не звичайна практика.</p>
+</section>
 
-<!-- ================= ENGLISH ================= -->
+<section class="s" id="english" style="--c:#475569">
 <h2>English</h2>
-
 <h3>1. Tell me about yourself.</h3>
 <p>I am <b>Yehor</b>, and I'm a Manual QA Engineer.<br>
 My last project was an e-commerce platform for selling auto parts. It was an online store with a product catalog, a shopping cart, and search by car brand, model, and year.<br>
@@ -524,8 +549,14 @@ I'm good at organizing my work. I would keep separate notes and test status for 
 
 <h3>15. What are your salary expectations?</h3>
 <p>My expectations are around <span class="fill">[X–Y] dollars</span>, but I'm open to discussing it, depending on the full offer and the tasks.</p>
-
+</section>
 </main>
+</div>
 <a class="top" href="#top" aria-label="Вгору">↑</a>
+<script>
+const links=[...document.querySelectorAll('.side a')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ links.forEach(l=>l.classList.toggle('on', l.getAttribute('href')==='#'+e.target.id)); const a=links.find(l=>l.classList.contains('on')); const bar=a&&a.parentElement; if(bar&&bar.scrollWidth>bar.clientWidth){ bar.scrollTo({left:a.offsetLeft-12,behavior:'smooth'}); } } }),{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('.s').forEach(s=>io.observe(s));
+</script>
 </body>
 </html>
