@@ -64,6 +64,20 @@ ul.codes li.k2 { --k: #15803d; } ul.codes li.k3 { --k: #2563eb; } ul.codes li.k4
 #bugs > ol > li::before { content: counter(b); position: absolute; left: 12px; top: 12px; width: 26px; height: 26px; border-radius: 99px; background: var(--c); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; }
 .note2 { margin: 0 0 14px; font-size: 15px; }
 #process h3 + p { margin-top: 4px; }
+
+ol.scrum { list-style: none; padding: 0; counter-reset: sc; display: grid; gap: 10px; }
+ol.scrum li { counter-increment: sc; margin: 0; position: relative; padding: 12px 14px 12px 54px; border-radius: 12px; background: var(--soft); border: 1px solid color-mix(in srgb, var(--c) 25%, transparent); }
+ol.scrum li::before { content: counter(sc); position: absolute; left: 14px; top: 12px; width: 28px; height: 28px; border-radius: 8px; background: var(--c); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+ol.scrum .st { display: block; font-weight: 700; color: color-mix(in srgb, var(--c) 80%, var(--text)); margin-bottom: 2px; }
+ol.scrum .sd { display: block; font-size: 15.5px; }
+ol.doclist { list-style: none; padding: 0; counter-reset: d; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+ol.doclist li { counter-increment: d; margin: 0; display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; font-weight: 600; font-size: 15px; background: color-mix(in srgb, var(--k) 10%, var(--paper)); border: 1px solid color-mix(in srgb, var(--k) 35%, transparent); color: color-mix(in srgb, var(--k) 70%, var(--text)); }
+ol.doclist li::before { content: counter(d); flex: none; width: 24px; height: 24px; border-radius: 99px; background: var(--k); color: #fff; display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+ol.doclist.tc { --k: #7c3aed; }
+ol.doclist.bug { --k: #dc2626; }
+h3.bug-h { border-left-color: #dc2626; background: linear-gradient(90deg, color-mix(in srgb, #dc2626 12%, var(--paper)), transparent 85%); color: #b91c1c; }
+@media (prefers-color-scheme: dark) { ol.doclist li { color: color-mix(in srgb, var(--k) 45%, white); } h3.bug-h { color: #f87171; } ol.scrum .st { color: color-mix(in srgb, var(--c) 55%, white); } }
+
 @media (max-width: 860px) { ul.codes li > b:first-child { min-width: 0; display: table; margin-bottom: 2px; } ol.flow li:not(:last-child)::after { content: none; } }
 @media (prefers-color-scheme: dark) { ul.life li > b:first-child, ul.codes li > b:first-child { color: color-mix(in srgb, var(--st, var(--k)) 55%, white); } }
 
@@ -265,14 +279,7 @@ ul.codes li.k2 { --k: #15803d; } ul.codes li.k3 { --k: #2563eb; } ul.codes li.k4
 <p class="method"><b>Agile</b> - Головна ідея: не робити весь величезний проєкт цілком цілий рік. Ми розбиваємо його на маленькі шматочки й випускаємо їх поступово, постійно збираючи зворотний зв'язок від користувачів.</p>
 <p class="method"><b>Scrum</b> - Процес розбитий на рівні відрізки часу - <b>спринти</b> (зазвичай 1 або 2 тижні).</p>
 <p>Як влаштований процес:</p>
-<ul class="cards">
-  <li>Є <b>Беклог (Backlog)</b> - загальний список усіх задач і фіч, які потрібно зробити в проєкті.</li>
-  <li><b>Планування спринту:</b> Команда збирається й обирає з беклогу задачі, які вона точно встигне зробити за найближчі 2 тижні.</li>
-  <li>Щодня проходять <b>Daily (дейлі / мітинги)</b> на 15 хвилин, де кожен відповідає на 3 питання: <i>Що робив учора? Що роблю сьогодні? Чи є проблеми (блокери)?</i></li>
-  <li><b>Тестування в Scrum:</b> Тестувальник працює <b>всередині спринту</b>. Розробник зробив маленьку задачу - ти її одразу перевірив. До кінця спринту фіча має бути повністю протестована й готова до показу.</li>
-  <li><b>Демо (Review):</b> Наприкінці спринту команда показує готовий робочий функціонал клієнту або замовнику.</li>
-  <li><b>Ретроспектива (Ретро):</b> Зустріч наприкінці спринту, де команда обговорює, що пройшло добре, а що пішло не так і як покращити процеси.</li>
-</ul>
+<ol class="scrum"><li><span class="st">Беклог (Backlog)</span><span class="sd">Загальний список усіх задач і фіч, які потрібно зробити в проєкті.</span></li><li><span class="st">Планування спринту</span><span class="sd">Команда збирається й обирає з беклогу задачі, які вона точно встигне зробити за найближчі 2 тижні.</span></li><li><span class="st">Daily (дейлі / мітинги)</span><span class="sd">Щодня на 15 хвилин, де кожен відповідає на 3 питання: <i>Що робив учора? Що роблю сьогодні? Чи є проблеми (блокери)?</i></span></li><li><span class="st">Тестування в Scrum</span><span class="sd">Тестувальник працює <b>всередині спринту</b>. Розробник зробив маленьку задачу - ти її одразу перевірив. До кінця спринту фіча має бути повністю протестована й готова до показу.</span></li><li><span class="st">Демо (Review)</span><span class="sd">Наприкінці спринту команда показує готовий робочий функціонал клієнту або замовнику.</span></li><li><span class="st">Ретроспектива (Ретро)</span><span class="sd">Зустріч наприкінці спринту, де команда обговорює, що пройшло добре, а що пішло не так і як покращити процеси.</span></li></ol>
 <p class="method"><b>Kanban</b> - На відміну від Scrum, у Kanban немає спринтів і жорстких дедлайнів. Це модель безперервного потоку задач.</p>
 </section>
 
@@ -281,7 +288,7 @@ ul.codes li.k2 { --k: #15803d; } ul.codes li.k3 { --k: #2563eb; } ul.codes li.k4
 <h3>Тест-кейс</h3>
 <p>Документ, що містить кроки, тестові дані та очікуваний результат для перевірки конкретного функціоналу.</p>
 <p>Основні елементи тест-кейса:</p>
-<ol class="chips">
+<ol class="doclist tc">
   <li>ID та назва (Summary)</li>
   <li>Передумови (Preconditions)</li>
   <li>Кроки відтворення (Steps)</li>
@@ -292,10 +299,10 @@ ul.codes li.k2 { --k: #15803d; } ul.codes li.k3 { --k: #2563eb; } ul.codes li.k4
 <h3>Чек-лист</h3>
 <p>Документ, що містить структурований список перевірок (тестових сценаріїв) без детальної покрокової деталізації, необхідний для швидкого контролю коректності роботи застосунку.</p>
 
-<h3>Баг-репорт</h3>
+<h3 class="bug-h">🐞 Баг-репорт</h3>
 <p>Технічний документ, що детально описує умови, кроки й суть знайденого дефекту для подальшої передачі розробникам на виправлення.</p>
 <p>Стандартна структура баг-репорту:</p>
-<ul class="chips">
+<ol class="doclist bug">
   <li>Тема (Summary)</li>
   <li>Оточення (Environment)</li>
   <li>Передумови (Preconditions)</li>
@@ -305,7 +312,7 @@ ul.codes li.k2 { --k: #15803d; } ul.codes li.k3 { --k: #2563eb; } ul.codes li.k4
   <li>Критичність (Severity)</li>
   <li>Пріоритет (Priority)</li>
   <li>Вкладення (скриншоти, логи, відео)</li>
-</ul>
+</ol>
 
 <h3>Що таке дефект (Bug)?</h3>
 <p>Невідповідність між фактичною поведінкою програмного забезпечення та його очікуваним результатом, зафіксованим у вимогах або специфікації.</p>
